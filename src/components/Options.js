@@ -3,7 +3,7 @@ import firebase from "firebase";
 import Dropdown from './Dropdown';
 import "../css/options.css"
 
-export default function Options({processedSettings, changeSettings, setOptionsOpen, optionsClass }) {
+export default function Options({ processedSettings, changeSettings, setOptionsOpen, optionsClass }) {
 
 
     function sendRequest(e) {
@@ -16,14 +16,17 @@ export default function Options({processedSettings, changeSettings, setOptionsOp
         getImgurLink()
     }
 
-    function closeSettings(){
+    function closeSettings() {
         setOptionsOpen(false)
     }
 
 
     return (
         <div id="options" className={optionsClass}>
-            <button className="button--close" onClick={()=>closeSettings()}>&#10006;</button>
+            <div id="options__header">
+                <h2>Settings</h2>
+                <button className="button--close" onClick={() => closeSettings()}>&#10006;</button>
+            </div>
             <div id="options__buttons">
                 <button className="options__button" onClick={sendRequest}>send Request</button>
                 {

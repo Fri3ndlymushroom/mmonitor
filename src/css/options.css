@@ -13,6 +13,14 @@
     display: block;
 }
 
+#options__header{
+    margin: 0px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 40px;
+}
+
 /* dropdown */
 
 .dropdown__wrapper {
@@ -33,7 +41,7 @@
 }
 
 .dropdown__content>div {
-    margin: 10px
+    margin: 10px;
 }
 
 .show__dropdown {

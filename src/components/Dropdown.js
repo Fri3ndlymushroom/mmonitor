@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default function Dropdown({y, tot, setting, changeSettings}) {
+export default function Dropdown({setting, changeSettings}) {
 
     function toggleOption(ls, option) {
         let setting = JSON.parse(localStorage.getItem(ls))

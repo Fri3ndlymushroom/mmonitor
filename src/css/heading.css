@@ -6,7 +6,7 @@
     color: #0c1016;
     filter: url("#gooey");
     position: relative;
-    background-color: #78C6A3;
+    background-color: var(--hl);
 }
 
 svg {
@@ -28,7 +28,7 @@ svg {
 }
 
 #title .bubbles .bubble {
-    background-color: #78C6A3;
+    background-color: var(--hl);
     border-radius: 100%;
     position: absolute;
     top: 0;

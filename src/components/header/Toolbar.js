@@ -39,7 +39,7 @@ export default function Toolbar({setOptionsOpen}) {
                     <span className="bubble"></span>
                 </span>
             </h1>
-            <button onClick={()=>setOptionsOpen(true)}>Settings</button>
+            <button onClick={()=>setOptionsOpen(true)}>&#9881;</button>
         </section>
     )
 }

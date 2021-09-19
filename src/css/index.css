@@ -5,6 +5,7 @@
     --br: 5px;
     --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
     --product__columns: 4;
+    --hl: #78C6A3;
 }
 
 * {
@@ -92,7 +93,18 @@ a::before {
     margin: 30px;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
+    
 }
+
+#toolbar>button{
+    background-color: var(--hl);
+    border: none;
+    width: 50px;
+    font-size: 30px;
+    padding: auto;
+    color: black
+}
+

@@ -133,3 +133,15 @@
 .flair--Group_Buy {
     background-color: #14746F
 }
+
+.button--close-wrapper{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.post__header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 40px;
+}
