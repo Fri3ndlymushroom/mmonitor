@@ -9,7 +9,7 @@ import "./toolbar.css"
 
 
 
-export default function Toolbar({ processedSettings, changeSettings }) {
+export default function Toolbar({processedSettings, changeSettings }) {
 
     function sendRequest(e) {
         const sendRequest = firebase.functions().httpsCallable('sendRequest');

@@ -53,17 +53,25 @@ function App() {
     function openPost(index) {
         setCurrentOpenPost(processedPostsData[index])
     }
+    
+    console.log(currentOpenPost)
+    let openClass = ""
+    if(currentOpenPost.refactored){
+        if(currentOpenPost.refactored.html !== '<p></p>')
+        openClass = "openpost--active"
+    }
 
     return (
         <>
             <Scripts />
             <div id="content">
-                <Toolbar processedSettings={processedSettings} changeSettings={changeSettings} />
-                <section id="body">
+                <Toolbar  processedSettings={processedSettings} changeSettings={changeSettings} />
+                <section id={"body"} className={openClass}>
                     <section id="posts">
                         <Posts processedPostsData={processedPostsData} openPost={openPost} />
                     </section>
-                    <Postpreview currentOpenPost={currentOpenPost} />
+                    <Postpreview setCurrentOpenPost={setCurrentOpenPost} currentOpenPost={currentOpenPost} />
+                    <div onClick={()=>setCurrentOpenPost({refactored:{html:'<p></p>'}})} id="overlay"></div>
                 </section>
             </div>
         </>

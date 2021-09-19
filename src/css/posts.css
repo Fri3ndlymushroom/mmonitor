@@ -1,12 +1,18 @@
-
 #body {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 800px);
-    overflow: hidden;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0px)
 }
 
-#posts{
-    padding:0px 30px;
+#body.openpost--active {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 600px)
+}
+
+
+
+#posts {
+    grid-row: 1;
+    padding: 0px 30px;
     overflow-y: scroll;
     overflow-x: hidden;
     display: grid;
@@ -22,9 +28,6 @@
     :root {
         --product__columns: 3;
     }
-    #body {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 600px);
-    }
 }
 
 @media screen and (max-width: 1400px) {
@@ -33,9 +36,6 @@
     }
     :root {
         --product__columns: 2;
-    }
-    #body {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
     }
 }
 
@@ -46,8 +46,14 @@
     :root {
         --product__columns: 1;
     }
-    #body {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 700);
+    #body.openpost--active {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 90%)
+    }
+    #body.openpost--active>#overlay {
+        display: block;
+    }
+    #posts{
+        grid-column: 1/3;
     }
 }
 
