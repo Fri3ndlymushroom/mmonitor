@@ -1,0 +1,13 @@
+#postpreview{
+    margin: 0 30px;
+    background-color: var(--bg2);
+    padding: 30px;
+    border-radius: var(--br);
+    overflow-y: scroll;
+}
+
+#postpreview--empty{
+    height: 100%;
+    display: grid;
+    place-items: center;
+}

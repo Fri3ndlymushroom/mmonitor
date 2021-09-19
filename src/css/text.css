@@ -1,0 +1,15 @@
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.post__h1 {
+    font-size: 30px;
+}
+
+.post__h2 {
+    font-size: 20px;
+}

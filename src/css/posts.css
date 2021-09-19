@@ -1,0 +1,129 @@
+
+#body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 800px);
+    overflow: hidden;
+}
+
+#posts{
+    padding:0px 30px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-gap: 30px;
+    border-radius: var(--br);
+}
+
+@media screen and (max-width: 1800px) {
+    #posts {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    :root {
+        --product__columns: 3;
+    }
+    #body {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 600px);
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    #posts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    :root {
+        --product__columns: 2;
+    }
+    #body {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    #posts {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    :root {
+        --product__columns: 1;
+    }
+    #body {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 700);
+    }
+}
+
+.postrow {
+    display: flex;
+    flex-direction: column;
+    gap: 30px
+}
+
+.post {
+    background-color: var(--bg2);
+    border-radius: var(--br);
+    box-shadow: var(--bs);
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    text-align: start;
+}
+
+.post:hover {
+    transform: scale(1.05);
+}
+
+.post:active {
+    transform: scale(0.95);
+}
+
+.post>img {
+    width: 100%;
+    border-radius: var(--br) var(--br) 0 0;
+}
+
+.post>span {
+    max-width: 100%;
+    margin: 30px;
+}
+
+.flair {
+    padding: 5px 10px;
+    border-radius: var(--br)
+}
+
+.flair--Selling {
+    background-color: #99E2B4
+}
+
+.flair--Buying {
+    background-color: #88D4AB
+}
+
+.flair--Trading {
+    background-color: #78C6A3
+}
+
+.flair--Artisan {
+    background-color: #67B99A
+}
+
+.flair--Service {
+    background-color: #56AB91
+}
+
+.flair--Vendor {
+    background-color: #469D89
+}
+
+.flair--Bulk {
+    background-color: #358F80
+}
+
+.flair--Interest_Check {
+    background-color: #248277
+}
+
+.flair--Group_Buy {
+    background-color: #14746F
+}
