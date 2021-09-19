@@ -7,7 +7,6 @@ export default function Postpreview({setCurrentOpenPost, currentOpenPost }) {
 
     function closePreview(){
         setCurrentOpenPost({refactored:{html:'<p></p>'}})
-        console.log("ok")
     }
 
     return (

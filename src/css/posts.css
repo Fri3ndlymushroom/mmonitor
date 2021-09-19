@@ -3,7 +3,7 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 0px)
 }
 
-#body.openpost--active {
+#body.sidebar--active {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 600px)
 }
@@ -46,10 +46,10 @@
     :root {
         --product__columns: 1;
     }
-    #body.openpost--active {
+    #body.sidebar--active {
         grid-template-columns: minmax(0, 1fr) minmax(0, 90%)
     }
-    #body.openpost--active>#overlay {
+    #body.sidebar--active>#overlay {
         display: block;
     }
     #posts{

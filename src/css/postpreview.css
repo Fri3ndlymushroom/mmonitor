@@ -17,12 +17,12 @@
     place-items: center;
 }
 
-#body.openpost--active> {
+#body.sidebar--active> {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 600px)
 }
 
-#body.openpost--active>#postpreview {
+#body.sidebar--active>#postpreview {
     display: block
 }
 
