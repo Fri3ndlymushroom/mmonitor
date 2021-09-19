@@ -53,7 +53,7 @@ function App() {
         setSettings(newSettings)
     }
 
-    const [settingsOpen, setSettingsOpen] = useState(false)
+    const [optionsOpen, setOptionsOpen] = useState(false)
 
     // refactor posts
     let processedPostsData = processPostsData(postsData, settings)
@@ -62,16 +62,16 @@ function App() {
     const [currentOpenPost, setCurrentOpenPost] = useState({})
     function openPost(index) {
         setCurrentOpenPost(processedPostsData[index])
+        setOptionsOpen(false)
     }
-    
-    console.log(currentOpenPost)
+
     let sidebarClass = ""
+    let optionsClass = ""
     if(currentOpenPost.refactored){
         if(currentOpenPost.refactored.html !== '<p></p>')
         sidebarClass = "sidebar--active"
     }
-    let optionsClass = ""
-    if(settingsOpen){
+    if(optionsOpen){
         sidebarClass = "sidebar--active"
         optionsClass = "options--open"
     }
@@ -80,14 +80,16 @@ function App() {
         <>
             <Scripts />
             <div id="content">
-                <Toolbar setSettingsOpen={setSettingsOpen} />
+                <Toolbar setOptionsOpen={setOptionsOpen} />
                 <section id={"body"} className={sidebarClass}>
                     <section id="posts">
                         <Posts processedPostsData={processedPostsData} openPost={openPost} />
                     </section>
                     <Postpreview  setCurrentOpenPost={setCurrentOpenPost} currentOpenPost={currentOpenPost} />
-                    <Options optionsClass={optionsClass} setSettingsOpen={setSettingsOpen} processedSettings={processedSettings} changeSettings={changeSettings} />
-                    <div onClick={()=>{setCurrentOpenPost({refactored:{html:'<p></p>'}}); setSettingsOpen(false)}} id="overlay"></div>
+                    <Options optionsClass={optionsClass} setOptionsOpen={setOptionsOpen} processedSettings={processedSettings} changeSettings={changeSettings} />
+                    <div onClick={()=>{setCurrentOpenPost({refactored:{html:'<p></p>'}}); setOptionsOpen(false)}} id="overlay"></div>
+                </section>
+                <section>
                 </section>
             </div>
         </>

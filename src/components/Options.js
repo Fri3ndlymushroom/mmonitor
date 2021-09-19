@@ -3,7 +3,7 @@ import firebase from "firebase";
 import Dropdown from './Dropdown';
 import "../css/options.css"
 
-export default function Options({processedSettings, changeSettings, setSettingsOpen, optionsClass }) {
+export default function Options({processedSettings, changeSettings, setOptionsOpen, optionsClass }) {
 
 
     function sendRequest(e) {
@@ -17,22 +17,21 @@ export default function Options({processedSettings, changeSettings, setSettingsO
     }
 
     function closeSettings(){
-        setSettingsOpen(false)
+        setOptionsOpen(false)
     }
-
 
 
     return (
         <div id="options" className={optionsClass}>
             <button className="button--close" onClick={()=>closeSettings()}>&#10006;</button>
-            <div id="toolbar__buttons">
-                <button className="toolbar__button" onClick={sendRequest}>send Request</button>
+            <div id="options__buttons">
+                <button className="options__button" onClick={sendRequest}>send Request</button>
                 {
                     processedSettings.map(setting => {
                         return <Dropdown changeSettings={changeSettings} key={setting.ls} setting={setting} />
                     })
                 }
-                <button className="toolbar__button" onClick={debugFunction}>Holy Debug Button</button>
+                <button className="options__button" onClick={debugFunction}>Holy Debug Button</button>
             </div>
         </div>
     )

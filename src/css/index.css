@@ -82,8 +82,8 @@ a::before {
 }
 
 #content {
-    max-height: calc(100vh - 60px);
-    height: calc(100vh - 60px);
+    max-height: calc(100vh);
+    height: calc(100vh);
     display: grid;
     grid-template-rows: minmax(0, 100px) minmax(0, 1fr);
 }

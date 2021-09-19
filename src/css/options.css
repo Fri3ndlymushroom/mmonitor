@@ -12,3 +12,60 @@
 #options.options--open{
     display: block;
 }
+
+/* dropdown */
+
+.dropdown__wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown__content {
+    display: none;
+    background-color: var(--bg2);
+    overflow: auto;
+    box-shadow: var(--bs);
+    z-index: 1;
+    padding: 5px;
+    margin: 10px 0;
+    border-radius: var(--br);
+    width: 150px;
+}
+
+.dropdown__content>div {
+    margin: 10px
+}
+
+.show__dropdown {
+    display: block;
+}
+
+/* buttons */
+
+#options__buttons {
+    width: 100%;
+    background-color: var(--bg2);
+    padding: 10px;
+    border-radius: var(--br);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.options__button {
+    font-size: 17px;
+    padding: 5px 10px;
+    margin: 0;
+    border: none;
+    background-color: #6ca78c;
+    transition: 0.5s;
+}
+
+
+.options__button:hover {
+    background-color: #4e6b5e;
+}
+

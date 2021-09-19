@@ -8,7 +8,7 @@ import "./toolbar.css"
 
 
 
-export default function Toolbar({setSettingsOpen}) {
+export default function Toolbar({setOptionsOpen}) {
 
 
 
@@ -39,7 +39,7 @@ export default function Toolbar({setSettingsOpen}) {
                     <span className="bubble"></span>
                 </span>
             </h1>
-            <button onClick={()=>setSettingsOpen(true)}>Settings</button>
+            <button onClick={()=>setOptionsOpen(true)}>Settings</button>
         </section>
     )
 }
