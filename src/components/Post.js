@@ -8,12 +8,15 @@ export default function Post({ data, openPost }) {
     }
 
 
-    
+    if(!data.images[0]){
+        data.images[0] = ""
+    }
+
 
 
     return (
         <button onClick={() => openPost(data.index)} className="post">
-            <img alt="product_preview_image" src="https://insect-respect.org/app/uploads/2020/06/placeholder.png"></img>
+            <img alt="product_preview_image" src={data.images[0].scrText}></img>
             <span>
                 {
                     getPost(data, flairClass)

@@ -4,6 +4,8 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
 
+const puppeteer = require('puppeteer')
+
 
 exports.sendRequest = functions.https.onCall(async (data, context) => {
 
@@ -54,19 +56,54 @@ async function updatePostDatabase(data) {
     })
 
     // push all non doublicate posts to db
-    data.forEach(function (post) {
+    let i = 0
+    for(let post of data){
         if (!post.doublicate) {
+
+
+            const imagePost = await getImgurLink(post).catch(err=>console.log("🛑"+err))
+            console.log("imgs: "+imagePost.images.length,"p: "+ i)
+
             db.collection("posts").doc(post.id).set({
-                data: post
+                data: imagePost
             })
         }
-    })
+        i++
+    }
 }
 
 
+async function getImgurLink(post) {
+    // get first imgur link
+    let url = post.selftext.match(/https:\/\/imgur\.com.*?(?=\)|$)/gm)
+    post.images = []
+    if(url === null) return post
+    url = url[0]
+
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    await page.goto(url)
+
+    const el = await page.$x('//*[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div/div/div/img')
+
+    let urls = []
+
+    
+    await Promise.all(el.map(async (element) => {
+        const src = await element.getProperty('src')
+        const scrText = await src.jsonValue()
+
+        urls.push({ scrText })
+    }));
+    
 
 
-const puppeteer = require('puppeteer')
+    post.images = urls
+    return post
+}
+
+/*
+
 exports.getImgurLink = functions.https.onCall(async (data, context) => {
     let url = "https://imgur.com/a/1QEKZ2f"
 
@@ -76,7 +113,7 @@ exports.getImgurLink = functions.https.onCall(async (data, context) => {
 
     const el = await page.$x('//*[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div/div/div/img')
 
-    el.forEach(async function(element){
+    el.forEach(async function (element) {
         const src = await element.getProperty('src')
         const scrText = await src.jsonValue()
 
@@ -86,3 +123,4 @@ exports.getImgurLink = functions.https.onCall(async (data, context) => {
 
 
 
+*/
