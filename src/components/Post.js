@@ -7,13 +7,13 @@ export default function Post({ data, openPost }) {
         flairClass = data.link_flair_text.replace(/ /g, "_")
     }
 
+
     const [imageIndex, setImageIndex] = useState(0)
     const [hovering, setHovering] = useState(false)
 
     useEffect(() => {
         let loop = setInterval(function () {
             if (hovering) {
-                console.log("loop")
 
                 let newImageIndex = imageIndex + 1
                 if (newImageIndex > data.images.length - 1) newImageIndex = 0
@@ -24,12 +24,13 @@ export default function Post({ data, openPost }) {
     })
 
 
-
-
     //console.log(data.images)
     return (
         <button onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} onClick={() => openPost(data.index)} className="post">
-            <img alt="product_preview_image" src={data.images[imageIndex]}></img>
+            {
+                getImage(data.images, imageIndex)
+            }
+           
             <span>
                 {
                     getPost(data, flairClass)
@@ -37,6 +38,14 @@ export default function Post({ data, openPost }) {
             </span>
         </button>
     )
+}
+
+function getImage(images, index){
+    if (images.length < 1) {
+        return ""
+    }else{
+        return <img alt="product_preview_image" src={images[index]}></img>
+    }
 }
 
 function getPost(data, flairClass) {

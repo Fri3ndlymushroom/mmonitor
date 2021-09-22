@@ -57,11 +57,12 @@ async function updatePostDatabase(data) {
 
     // push all non doublicate posts to db
     let i = 0
+    const browser = await puppeteer.launch()
     for (let post of data) {
         if (!post.doublicate) {
 
 
-            const imagePost = await getImgurLink(post).catch(err => console.log("🛑" + err))
+            const imagePost = await getImgurLink(browser, post).catch(err => console.log("🛑" + err))
             console.log("imgs: " + imagePost.images.length, "p: " + i)
 
             await db.collection("posts").doc(post.id).set({
@@ -70,10 +71,11 @@ async function updatePostDatabase(data) {
         }
         i++
     }
+    await browser.close()
 }
 
 
-async function getImgurLink(post) {
+async function getImgurLink(browser, post) {
     // get first imgur link
     let url = post.selftext.match(/http(s*):\/\/imgur\.com.*?(?=\)|$|\])/gm)
     let urls = []
@@ -82,15 +84,17 @@ async function getImgurLink(post) {
     if (url !== null) {
         url = url[0]
 
-        const browser = await puppeteer.launch()
+        
         const page = await browser.newPage()
         await page.goto(url)
+        /*
+        let el = []
+        await page.evaluate(()=>{
+            el = $('img.image-placeholder').toArray()
+        })*/
 
-
-
-
-        const el = await page.$x('//*[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div/div/div/img')
-        
+        const el = await page.$x('//*[@id="root"]/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/img')
+        //                          *[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div[5]/div/div/img
         
         await Promise.all(el.map(async (element) => {
             const src = await element.getProperty('src')
@@ -102,7 +106,7 @@ async function getImgurLink(post) {
         
 
 
-        await browser.close()
+
 
     }
 
