@@ -9,6 +9,7 @@ import Options from './components/Options'
 import Scripts from './components/Scripts'
 import Postpreview from './components/Postpreview'
 
+
 //style
 import "./css/index.css"
 import "./css/posts.css"
