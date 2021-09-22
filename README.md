@@ -1,4 +1,4 @@
-# MMsearch
+# MMonitor
 #### A self updating view of r/mechmarket with advanced tools
 > By Moritz Hüsser aka FriendlyMushroom
 
