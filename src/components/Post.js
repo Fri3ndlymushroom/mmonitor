@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 export default function Post({ data, openPost }) {
 
     let flairClass = ""
@@ -8,15 +9,25 @@ export default function Post({ data, openPost }) {
     }
 
 
+
+    /*
+    if(data.preview)
+    data.preview.images.forEach(function(image){
+        data.images.push(image.source.url)
+    })*/
+
+
     if(!data.images[0]){
-        data.images[0] = ""
+        console.log(data.selftext)
+        data.images[0] ="no_image_found.png"
     }
 
+    
 
-
+    //console.log(data.images)
     return (
         <button onClick={() => openPost(data.index)} className="post">
-            <img alt="product_preview_image" src={data.images[0].scrText}></img>
+            <img alt="product_preview_image" src={data.images[0]}></img>
             <span>
                 {
                     getPost(data, flairClass)

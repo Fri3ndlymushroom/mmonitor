@@ -57,14 +57,14 @@ async function updatePostDatabase(data) {
 
     // push all non doublicate posts to db
     let i = 0
-    for(let post of data){
+    for (let post of data) {
         if (!post.doublicate) {
 
 
-            const imagePost = await getImgurLink(post).catch(err=>console.log("🛑"+err))
-            console.log("imgs: "+imagePost.images.length,"p: "+ i)
+            const imagePost = await getImgurLink(post).catch(err => console.log("🛑" + err))
+            console.log("imgs: " + imagePost.images.length, "p: " + i)
 
-            db.collection("posts").doc(post.id).set({
+            await db.collection("posts").doc(post.id).set({
                 data: imagePost
             })
         }
@@ -75,27 +75,40 @@ async function updatePostDatabase(data) {
 
 async function getImgurLink(post) {
     // get first imgur link
-    let url = post.selftext.match(/https:\/\/imgur\.com.*?(?=\)|$)/gm)
-    post.images = []
-    if(url === null) return post
-    url = url[0]
-
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-    await page.goto(url)
-
-    const el = await page.$x('//*[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div/div/div/img')
-
+    let url = post.selftext.match(/http(s*):\/\/imgur\.com.*?(?=\)|$|\])/gm)
     let urls = []
-
+    post.images = []
     
-    await Promise.all(el.map(async (element) => {
-        const src = await element.getProperty('src')
-        const scrText = await src.jsonValue()
+    if (url !== null) {
+        url = url[0]
 
-        urls.push({ scrText })
-    }));
-    
+        const browser = await puppeteer.launch()
+        const page = await browser.newPage()
+        await page.goto(url)
+
+
+
+
+        const el = await page.$x('//*[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div/div/div/img')
+        
+        
+        await Promise.all(el.map(async (element) => {
+            const src = await element.getProperty('src')
+            const scrText = await src.jsonValue()
+
+            urls.push(scrText)
+            return
+        }));
+        
+
+
+        await browser.close()
+
+    }
+
+    let imageLinks = post.selftext.match(/http(s*):\/\/i\.imgur\.com\/.*?(?=\)|$)/gm)
+    if (imageLinks !== null)
+        imageLinks.forEach(function (element) { urls.push(element) })
 
 
     post.images = urls
