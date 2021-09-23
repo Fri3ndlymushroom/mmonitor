@@ -319,12 +319,21 @@ function classifyData(data) {
         data.classification.broken = true
     }
 
+    if(data.selftext.match(/\[removed\]/gm) !== null){
+        data.classification.borken = true
+        return data
+    }
+
     if (noHasWants) {
         data.title = data.title.replace(/^\[(.*?)\]/g, "")
         data.classification.no_has_wants = true
         data.classification.broken = false
         return data
     }
+
+    
+
+
 
     return data
 }

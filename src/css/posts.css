@@ -146,3 +146,8 @@
     justify-content: space-between;
     gap: 40px;
 }
+
+.button--report{
+    font-size: 1.5em;
+    color: #f13c3c;
+}

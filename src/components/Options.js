@@ -3,7 +3,7 @@ import firebase from "firebase";
 import Dropdown from './Dropdown';
 import "../css/options.css"
 
-export default function Options({ processedSettings, changeSettings, setOptionsOpen, optionsClass }) {
+export default function Options({ processedSettings, changeSettings, setOptionsOpen, optionsClass, setLoginOpen }) {
 
 
     function getPostsCallable(e) {
@@ -11,7 +11,7 @@ export default function Options({ processedSettings, changeSettings, setOptionsO
         getPostsCallable()
     }
 
-    function closeSettings() {
+    function closeOptions() {
         setOptionsOpen(false)
     }
 
@@ -20,7 +20,7 @@ export default function Options({ processedSettings, changeSettings, setOptionsO
         <div id="options" className={optionsClass}>
             <div id="options__header">
                 <h2>Settings</h2>
-                <button className="button--close" onClick={() => closeSettings()}>&#10006;</button>
+                <button className="button--close" onClick={() => closeOptions()}>&#10006;</button>
             </div>
             <div id="options__buttons">
                 <button className="options__button" onClick={getPostsCallable()}>get posts</button>
@@ -29,6 +29,7 @@ export default function Options({ processedSettings, changeSettings, setOptionsO
                         return <Dropdown changeSettings={changeSettings} key={setting.ls} setting={setting} />
                     })
                 }
+                <button onClick={()=>setLoginOpen(true)}>Log In</button>
             </div>
         </div>
     )

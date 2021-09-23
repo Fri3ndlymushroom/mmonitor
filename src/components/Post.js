@@ -24,7 +24,6 @@ export default function Post({ data, openPost }) {
     })
 
 
-    //console.log(data.images)
     return (
         <button onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} onClick={() => openPost(data.index)} className="post">
             {

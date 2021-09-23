@@ -11,7 +11,6 @@ export default function Postpreview({ setCurrentOpenPost, currentOpenPost }) {
         setCurrentOpenPost({ refactored: { html: '<p></p>' } })
     }
 
-    console.log(currentOpenPost.selftext)
 
     return (
         <div id="postpreview">
@@ -23,46 +22,42 @@ export default function Postpreview({ setCurrentOpenPost, currentOpenPost }) {
 }
 
 function getPreview(currentOpenPost, closePreview, imageIndex, setImageIndex) {
+    const header =
+        <div className="post__header">
+            <h2><a rel="noreferrer" target="_blank" href={currentOpenPost.full_link}>Full Post</a></h2>
+
+            <button className="button--report" onClick={() => reportPost(currentOpenPost.id)}>&#9873;</button>
+            <button className="button--close" onClick={() => closePreview()}>&#10006;</button>
+
+        </div>
+
+
+
     if (currentOpenPost.classification)
         if (currentOpenPost.classification.no_has_wants) {
             return (
                 <>
-                    <div className="post__header">
-                        <h2><a rel="noreferrer" target="_blank" href={currentOpenPost.full_link}>Full Post</a></h2>
-                        <button className="button--close" onClick={() => closePreview()}> &#10006;</button>
-                    </div>
+                    {header}
                     <h2>{currentOpenPost.title}</h2>
-
-                    {
-                        getImageSlider(currentOpenPost.images, imageIndex, setImageIndex)
-                    }
+                    {getImageSlider(currentOpenPost.images, imageIndex, setImageIndex)}
                     <div dangerouslySetInnerHTML={{ __html: currentOpenPost.refactored.html }} />
                 </>
             )
         } else {
             return (
                 <>
-                    <div className="post__header">
-                        <h2><a rel="noreferrer" target="_blank" href={currentOpenPost.full_link}>Full Post</a></h2>
-                        <button className="button--close" onClick={() => closePreview()}> &#10006;</button>
-                    </div>
+                    {header}
                     <h2>Has: {currentOpenPost.classification.has}</h2>
                     <h2>Wants: {currentOpenPost.classification.wants}</h2>
                     <h3>r/{currentOpenPost.author} from {currentOpenPost.classification.location}</h3>
-                    {
-                        getImageSlider(currentOpenPost.images, imageIndex, setImageIndex)
-                    }
+                    {getImageSlider(currentOpenPost.images, imageIndex, setImageIndex)}
                     <div dangerouslySetInnerHTML={{ __html: currentOpenPost.refactored.html }} />
                 </>
             )
         }
     else {
         return (<>
-            <div className="post__header">
-                <h2>Post</h2>
-                <button className="button--close" onClick={() => closePreview()}> &#10006;</button>
-            </div>
-            <div id="postpreview--empty">Click a Post to open<span></span></div>
+            {header}
         </>
         )
     }
@@ -86,4 +81,8 @@ function getImageSlider(images, imageIndex, setImageIndex) {
                 })}>&rarr;</button>
             </div>
         )
+}
+
+function reportPost(id){
+    console.log(id)
 }

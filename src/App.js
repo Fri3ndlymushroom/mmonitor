@@ -8,6 +8,7 @@ import Toolbar from './components/header/Toolbar'
 import Options from './components/Options'
 import Scripts from './components/Scripts'
 import Postpreview from './components/Postpreview'
+import Login from './components/Login.js'
 
 
 //style
@@ -66,8 +67,14 @@ function App() {
         setOptionsOpen(false)
     }
 
+    // login
+    const [loginOpen, setLoginOpen] = useState(false)
+
+
+
     let sidebarClass = ""
     let optionsClass = ""
+    let loginClass = ""
     if(currentOpenPost.refactored){
         if(currentOpenPost.refactored.html !== '<p></p>')
         sidebarClass = "sidebar--active"
@@ -76,7 +83,12 @@ function App() {
         sidebarClass = "sidebar--active"
         optionsClass = "options--open"
     }
+    if(loginOpen){
+        sidebarClass = "sidebar--active"
+        loginClass = "login--open"
+    }
 
+    console.log(loginClass)
     return (
         <>
             <Scripts />
@@ -87,7 +99,8 @@ function App() {
                         <Posts processedPostsData={processedPostsData} openPost={openPost} />
                     </section>
                     <Postpreview  setCurrentOpenPost={setCurrentOpenPost} currentOpenPost={currentOpenPost} />
-                    <Options optionsClass={optionsClass} setOptionsOpen={setOptionsOpen} processedSettings={processedSettings} changeSettings={changeSettings} />
+                    <Options setLoginOpen={setLoginOpen} optionsClass={optionsClass} setOptionsOpen={setOptionsOpen} processedSettings={processedSettings} changeSettings={changeSettings} />
+                    <Login loginClass={loginClass} setLoginOpen={setLoginOpen}/>
                     <div onClick={()=>{setCurrentOpenPost({refactored:{html:'<p></p>'}}); setOptionsOpen(false)}} id="overlay"></div>
                 </section>
                 <section>
