@@ -6,9 +6,15 @@ const db = admin.firestore();
 
 const puppeteer = require('puppeteer')
 
+exports.getPosts = functions.pubsub.schedule("every 15 minutes from 00:00 to 23:59").timeZone("Europe/London").onRun((context) => {
+    getPosts()
+});
+exports.getPostsCallable = functions.https.onCall(async (data, context) => {
+    await getPosts()
+});
 
-exports.sendRequest = functions.https.onCall(async (data, context) => {
 
+async function getPosts() {
     let pushshiftData = '';
     let url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=mechmarket&sort=desc&sort_type=created_utc&frequency=second&before=' + "1s" + '&size=500'
 
@@ -31,8 +37,7 @@ exports.sendRequest = functions.https.onCall(async (data, context) => {
         console.log("Error: " + err.message);
     });
 
-
-});
+}
 
 async function updatePostDatabase(data) {
     data = data.data
@@ -80,11 +85,11 @@ async function getImgurLink(browser, post) {
     let url = post.selftext.match(/http(s*):\/\/imgur\.com.*?(?=\)|$|\])/gm)
     let urls = []
     post.images = []
-    
+
     if (url !== null) {
         url = url[0]
 
-        
+
         const page = await browser.newPage()
         await page.goto(url)
         /*
@@ -95,7 +100,7 @@ async function getImgurLink(browser, post) {
 
         const el = await page.$x('//*[@id="root"]/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/img')
         //                          *[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div[5]/div/div/img
-        
+
         await Promise.all(el.map(async (element) => {
             const src = await element.getProperty('src')
             const scrText = await src.jsonValue()
@@ -103,7 +108,7 @@ async function getImgurLink(browser, post) {
             urls.push(scrText)
             return
         }));
-        
+
 
 
 

@@ -11,6 +11,13 @@
     overflow-x:hidden;
 }
 
+@media screen and (max-width: 1200px) {
+    #postpreview {
+        margin: 0;
+    }
+}
+
+
 #postpreview>img {
     max-width: 100%;
 }

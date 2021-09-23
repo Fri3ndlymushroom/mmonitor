@@ -29,7 +29,6 @@ export default function getSettings() {
                 Bulk: false,
                 "Interest Check": false,
                 "Group Buy": false,
-
             }
         },
         {
@@ -46,14 +45,6 @@ export default function getSettings() {
                 UK: true,
                 US: true,
                 All: true,
-            }
-        },
-        {
-            id: "dropdown--appearance",
-            ls: "Appearance",
-            options: {
-                "Single-Posts": false,
-                "Tables-Filtered-Out": false
             }
         },
         {

@@ -74,13 +74,13 @@ function filterPosts(data, settings) {
     //appearance
 
     //broken
-    if (settings[3].options.show === false && data.classification.broken) {
+    if (settings[2].options.show === false && data.classification.broken) {
         data.show = false
     }
 
     // search terms
-    for (let term in settings[4].options) {
-        if (settings[4].options[term]) {
+    for (let term in settings[3].options) {
+        if (settings[3].options[term]) {
             let match = data.title.match(RegExp(term, "gi"))
             if (match === null) data.show = false
         }

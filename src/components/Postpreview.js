@@ -11,6 +11,8 @@ export default function Postpreview({ setCurrentOpenPost, currentOpenPost }) {
         setCurrentOpenPost({ refactored: { html: '<p></p>' } })
     }
 
+    console.log(currentOpenPost.selftext)
+
     return (
         <div id="postpreview">
             {
@@ -30,7 +32,7 @@ function getPreview(currentOpenPost, closePreview, imageIndex, setImageIndex) {
                         <button className="button--close" onClick={() => closePreview()}> &#10006;</button>
                     </div>
                     <h2>{currentOpenPost.title}</h2>
-                    
+
                     {
                         getImageSlider(currentOpenPost.images, imageIndex, setImageIndex)
                     }
@@ -67,20 +69,21 @@ function getPreview(currentOpenPost, closePreview, imageIndex, setImageIndex) {
 }
 
 function getImageSlider(images, imageIndex, setImageIndex) {
-    return (
-        <div className="imageslider">
-           
-            <img src={images[imageIndex]}></img>
-            <button className="imageslider__prev" onClick={()=>setImageIndex(()=>{
-                let newIndex = imageIndex -1
-                if(newIndex < 0) newIndex = images.length -1
-                return newIndex
-            })}>&larr;</button>
-            <button className="imageslider__next" onClick={()=>setImageIndex(()=>{
-                let newIndex = imageIndex + 1
-                if(newIndex > images.length -1) newIndex = 0
-                return newIndex
-            })}>&rarr;</button>
-        </div>
-    )
+    if (images.length > 0)
+        return (
+            <div className="imageslider">
+
+                <img alt="galery" src={images[imageIndex]}></img>
+                <button className="imageslider__prev" onClick={() => setImageIndex(() => {
+                    let newIndex = imageIndex - 1
+                    if (newIndex < 0) newIndex = images.length - 1
+                    return newIndex
+                })}>&larr;</button>
+                <button className="imageslider__next" onClick={() => setImageIndex(() => {
+                    let newIndex = imageIndex + 1
+                    if (newIndex > images.length - 1) newIndex = 0
+                    return newIndex
+                })}>&rarr;</button>
+            </div>
+        )
 }

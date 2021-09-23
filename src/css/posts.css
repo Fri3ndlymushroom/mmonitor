@@ -42,6 +42,7 @@
 @media screen and (max-width: 1200px) {
     #posts {
         grid-template-columns: repeat(1, minmax(0, 1fr));
+        padding: 0 10px;
     }
     :root {
         --product__columns: 1;

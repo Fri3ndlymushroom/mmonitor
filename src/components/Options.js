@@ -6,14 +6,9 @@ import "../css/options.css"
 export default function Options({ processedSettings, changeSettings, setOptionsOpen, optionsClass }) {
 
 
-    function sendRequest(e) {
-        const sendRequest = firebase.functions().httpsCallable('sendRequest');
-        sendRequest()
-    }
-
-    function debugFunction(e) {
-        const getImgurLink = firebase.functions().httpsCallable('getImgurLink');
-        getImgurLink()
+    function getPostsCallable(e) {
+        const getPostsCallable = firebase.functions().httpsCallable('getPostsCallable');
+        getPostsCallable()
     }
 
     function closeSettings() {
@@ -28,13 +23,12 @@ export default function Options({ processedSettings, changeSettings, setOptionsO
                 <button className="button--close" onClick={() => closeSettings()}>&#10006;</button>
             </div>
             <div id="options__buttons">
-                <button className="options__button" onClick={sendRequest}>send Request</button>
+                <button className="options__button" onClick={getPostsCallable()}>get posts</button>
                 {
                     processedSettings.map(setting => {
                         return <Dropdown changeSettings={changeSettings} key={setting.ls} setting={setting} />
                     })
                 }
-                <button className="options__button" onClick={debugFunction}>Holy Debug Button</button>
             </div>
         </div>
     )
