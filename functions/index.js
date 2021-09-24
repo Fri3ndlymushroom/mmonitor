@@ -144,6 +144,11 @@ exports.reportPost = functions.https.onCall(async (data, context) => {
 
     if(!alreadyReported){
         docData.reported.users.push(user)
+
+        if(docData.reported.users.length > 10){
+            docData.reported.broken = true
+        }
+
         db.collection("posts").doc(post).update(docData)
     }
 });

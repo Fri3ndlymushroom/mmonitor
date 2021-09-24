@@ -74,6 +74,8 @@ function filterPosts(data, settings) {
     //appearance
 
     //broken
+    if(data.reported.broken)data.classification.broken = true
+
     if (settings[2].options.show === false && data.classification.broken) {
         data.show = false
     }
