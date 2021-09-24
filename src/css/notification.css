@@ -1,0 +1,21 @@
+#notification{
+    background-color: var(--bg3);
+    box-shadow: var(--bs);
+    position: absolute;
+    height: 160px;
+    width: 360px;
+    bottom: 30px;
+    right: -600px;
+    padding: 30px;
+    border-radius: var(--br);
+    transition: 1s;
+    z-index: 100;
+}
+
+#notification>p{
+    font-size: 18px;
+}
+
+#notification.active{
+    right: 30px;
+}

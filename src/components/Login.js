@@ -1,11 +1,37 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import firebase, { auth } from "../firebase";
 import "../css/login.css"
 
 export default function Login({ loginClass, setLoginOpen }) {
 
+    const [authChanged, setAuthChanged] = useState(true)
+
     function closeLogin() {
         setLoginOpen(false)
+    }
+
+    function getLoginView() {
+        if (auth.currentUser) {
+            return (
+                <div id="loggedin">
+                    <h3>Welcome back {auth.currentUser.displayName}</h3>
+                    <p>Thank you for useing MMonitor</p>
+                    <button onClick={() => logout()}>Log Out</button>
+                </div>
+            )
+        } else {
+            return <button onClick={() => loginWithGoogle()}><img src="./google_button.png"></img></button>
+        }
+    }
+
+
+    async function loginWithGoogle() {
+        await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+        setAuthChanged(!authChanged)
+    }
+    function logout() {
+        auth.signOut()
+        setAuthChanged(!authChanged)
     }
 
 
@@ -24,19 +50,4 @@ export default function Login({ loginClass, setLoginOpen }) {
     )
 }
 
-function getLoginView() {
-    if (auth.currentUser) {
-        return (
-        <div id="loggedin">
-            <h3>Welcome back {auth.currentUser.displayName}</h3>
-            <p>Thank you for useing MMonitor</p>
-        </div>
-        )
-    } else {
-        return <button onClick={() => loginWithGoogle()}><img src="./google_button.png"></img></button>
-    }
-}
 
-async function loginWithGoogle() {
-    await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-}

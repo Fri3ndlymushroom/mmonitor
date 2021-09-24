@@ -9,7 +9,7 @@ import Options from './components/Options'
 import Scripts from './components/Scripts'
 import Postpreview from './components/Postpreview'
 import Login from './components/Login.js'
-
+import Notification from './components/Notification.js'
 
 //style
 import "./css/index.css"
@@ -88,6 +88,8 @@ function App() {
         loginClass = "login--open"
     }
 
+    const [notification, setNotification] = useState("")
+
     return (
         <>
             <Scripts />
@@ -97,13 +99,14 @@ function App() {
                     <section id="posts">
                         <Posts processedPostsData={processedPostsData} openPost={openPost} />
                     </section>
-                    <Postpreview  setCurrentOpenPost={setCurrentOpenPost} currentOpenPost={currentOpenPost} />
+                    <Postpreview setNotification={setNotification} setCurrentOpenPost={setCurrentOpenPost} currentOpenPost={currentOpenPost} />
                     <Options setLoginOpen={setLoginOpen} optionsClass={optionsClass} setOptionsOpen={setOptionsOpen} processedSettings={processedSettings} changeSettings={changeSettings} />
                     <Login loginClass={loginClass} setLoginOpen={setLoginOpen}/>
                     <div onClick={()=>{setCurrentOpenPost({refactored:{html:'<p></p>'}}); setOptionsOpen(false)}} id="overlay"></div>
                 </section>
                 <section>
                 </section>
+                <Notification notification={notification}/>
             </div>
         </>
     );

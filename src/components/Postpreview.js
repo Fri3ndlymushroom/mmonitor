@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import firebase from "firebase";
+import firebase, { auth } from "../firebase.js";
 
-export default function Postpreview({ setCurrentOpenPost, currentOpenPost }) {
+export default function Postpreview({ setNotification, setCurrentOpenPost, currentOpenPost }) {
     if (currentOpenPost.refactored === undefined) {
         currentOpenPost.refactored = { html: "<p></p>" }
     }
@@ -16,18 +16,18 @@ export default function Postpreview({ setCurrentOpenPost, currentOpenPost }) {
     return (
         <div id="postpreview">
             {
-                getPreview(currentOpenPost, closePreview, imageIndex, setImageIndex)
+                getPreview(setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex)
             }
         </div>
     )
 }
 
-function getPreview(currentOpenPost, closePreview, imageIndex, setImageIndex) {
+function getPreview(setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex) {
     const header =
         <div className="post__header">
             <h2><a rel="noreferrer" target="_blank" href={currentOpenPost.full_link}>Full Post</a></h2>
 
-            <button className="button--report" onClick={() => reportPost(currentOpenPost.id)}>&#9873;</button>
+            <button className="button--report" onClick={() => reportPost(currentOpenPost.id, setNotification)}>&#9873;</button>
             <button className="button--close" onClick={() => closePreview()}>&#10006;</button>
 
         </div>
@@ -84,7 +84,12 @@ function getImageSlider(images, imageIndex, setImageIndex) {
         )
 }
 
-function reportPost(id){
-    const reportPost = firebase.functions().httpsCallable('reportPost');
-    reportPost({document: id})
+function reportPost(id, setNotification) {
+    if (auth.currentUser !== null) {
+        const reportPost = firebase.functions().httpsCallable('reportPost');
+        reportPost({ document: id })
+        setNotification("The Post was reported. Thank you")
+    } else {
+        setNotification("Please Log In to report posts")
+    }
 }

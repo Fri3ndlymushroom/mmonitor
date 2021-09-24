@@ -1,6 +1,7 @@
 :root {
     --bg1: #0D1B2A;
     --bg2: #1B263B;
+    --bg3: #2f3d57;
     --text: #E0E1DD;
     --br: 5px;
     --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
@@ -20,6 +21,7 @@ body {
     background-color: var(--bg1);
     padding: 0;
     margin: 0;
+    overflow-x:hidden;
 }
 
 button {
