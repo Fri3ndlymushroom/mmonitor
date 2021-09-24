@@ -70,9 +70,11 @@ async function updatePostDatabase(data) {
             const imagePost = await getImgurLink(browser, post).catch(err => console.log("🛑" + err))
             console.log("imgs: " + imagePost.images.length, "p: " + i)
 
-            await db.collection("posts").doc(post.id).set({
-                data: imagePost
-            })
+            imagePost.reported = {users: [], broken: false}
+
+            await db.collection("posts").doc(post.id).set(
+                imagePost
+            )
         }
         i++
     }
@@ -111,7 +113,7 @@ async function getImgurLink(browser, post) {
 
 
 
-
+        await page.close();
 
     }
 
@@ -124,25 +126,24 @@ async function getImgurLink(browser, post) {
     return post
 }
 
-/*
+exports.reportPost = functions.https.onCall(async (data, context) => {
+    
+    post = data.document
+    user = context.auth.uid
+    docData = {}
 
-exports.getImgurLink = functions.https.onCall(async (data, context) => {
-    let url = "https://imgur.com/a/1QEKZ2f"
 
-    const browser = await puppeteer.launch()
-    const page = await browser.newPage()
-    await page.goto(url)
-
-    const el = await page.$x('//*[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div/div/div/img')
-
-    el.forEach(async function (element) {
-        const src = await element.getProperty('src')
-        const scrText = await src.jsonValue()
-
-        console.log({ scrText })
+    await db.collection("posts").doc(post).get().then((doc)=>{
+        docData = doc.data()
     })
+
+    let alreadyReported = false
+    docData.reported.users.forEach(function(element){
+        if(user === element) alreadyReported =  true
+    })
+
+    if(!alreadyReported){
+        docData.reported.users.push(user)
+        db.collection("posts").doc(post).update(docData)
+    }
 });
-
-
-
-*/

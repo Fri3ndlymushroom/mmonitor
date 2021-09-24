@@ -1,11 +1,11 @@
 :root {
-    --bg1: #253237;
-    --bg2: #384a52;
-    --text: #E0FBFC;
+    --bg1: #0D1B2A;
+    --bg2: #1B263B;
+    --text: #E0E1DD;
     --br: 5px;
     --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
     --product__columns: 4;
-    --hl: #78C6A3;
+    --hl: #61c5a7;
 }
 
 * {

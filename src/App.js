@@ -31,10 +31,10 @@ function App() {
     useEffect(() => {
         if (!setData) {
             db.collection("posts")
-                .orderBy("data.created_utc", "desc").get().then((querySnapshot) => {
+                .orderBy("created_utc", "desc").get().then((querySnapshot) => {
                     let dbData = []
                     querySnapshot.forEach(function (doc) {
-                        dbData.push(doc.data().data)
+                        dbData.push(doc.data())
                     })
                     setPostsData(dbData)
                 })
@@ -88,7 +88,6 @@ function App() {
         loginClass = "login--open"
     }
 
-    console.log(loginClass)
     return (
         <>
             <Scripts />

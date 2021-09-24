@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import firebase from "firebase";
 
 export default function Postpreview({ setCurrentOpenPost, currentOpenPost }) {
     if (currentOpenPost.refactored === undefined) {
@@ -84,5 +85,6 @@ function getImageSlider(images, imageIndex, setImageIndex) {
 }
 
 function reportPost(id){
-    console.log(id)
+    const reportPost = firebase.functions().httpsCallable('reportPost');
+    reportPost({document: id})
 }

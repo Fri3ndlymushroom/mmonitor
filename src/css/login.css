@@ -21,3 +21,22 @@
     justify-content: space-between;
     gap: 40px;
 }
+#login__body{
+    display: flex;
+    justify-content: center;
+    height: 300px;
+    align-items: center;
+}
+
+#login__body>button{
+    padding: 0px;
+    background-color: var(--bg1);
+}
+
+#login__body>button>img{
+    height: 60px;
+}
+
+#loggedin{
+    text-align: center
+}

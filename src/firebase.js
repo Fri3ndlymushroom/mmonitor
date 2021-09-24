@@ -2,6 +2,7 @@
 import firebase from "firebase/app";
 import "firebase/functions"
 import "firebase/firestore"
+import "firebase/auth"
 
 const firebaseConfig = {
     apiKey: "AIzaSyAbJrZYzo2iLllwJhLfz8H9btjGVPFO9hM",
@@ -17,9 +18,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const db = firebase.firestore();
+export const auth = firebase.auth();
 
 firebase.functions().useEmulator("localhost", 5001);
 db.useEmulator('localhost', 8080);
+auth.useEmulator('http://localhost:9099/', { disableWarnings: true });
 
 export default firebase
 
