@@ -7,7 +7,7 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
     }
 
     const [imageIndex, setImageIndex] = useState(0)
-
+    const [activeImage, setActiveImage] = useState("")
 
 
     function closePreview() {
@@ -17,23 +17,25 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
 
 
 
+    console.log(currentOpenPost)
+
     return (
         <div id="postpreview">
             {
-                getPreview(setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex)
+                getPreview(activeImage,setActiveImage, setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex)
             }
         </div>
     )
 }
 
-function getPreview(setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex) {
+function getPreview(activeImage, setActiveImage, setNotification,  currentOpenPost, closePreview, imageIndex, setImageIndex) {
     const header =
         <div className="post__header">
             <h2><a rel="noreferrer" target="_blank" href={currentOpenPost.full_link}>Full Post</a></h2>
-
-            <button data-tooltip="report broken post" data-tooltip-location="bottom" className="button--report tooltip__parent" onClick={() => reportPost(currentOpenPost.id, setNotification)}>&#9873;</button>
-            <button className="button--close" onClick={() => closePreview()}>&#10006;</button>
-
+            <div>
+                <button data-tooltip="report broken post" data-tooltip-location="left" className="button--report tooltip__parent" onClick={() => reportPost(currentOpenPost.id, setNotification)}>&#9873;</button>
+                <button className="button--close" onClick={() => closePreview()}>&#10006;</button>
+            </div>
         </div>
 
 
@@ -44,7 +46,7 @@ function getPreview(setNotification, currentOpenPost, closePreview, imageIndex, 
                 <>
                     {header}
                     <h2>{currentOpenPost.title}</h2>
-                    {getImageSlider(currentOpenPost.images, imageIndex, setImageIndex)}
+                    {getImageSlider(activeImage, setActiveImage,currentOpenPost.images, imageIndex, setImageIndex)}
                     <div dangerouslySetInnerHTML={{ __html: currentOpenPost.refactored.html }} />
                 </>
             )
@@ -55,7 +57,7 @@ function getPreview(setNotification, currentOpenPost, closePreview, imageIndex, 
                     <h2>Has: {currentOpenPost.classification.has}</h2>
                     <h2>Wants: {currentOpenPost.classification.wants}</h2>
                     <h3>r/{currentOpenPost.author} from {currentOpenPost.classification.location}</h3>
-                    {getImageSlider(currentOpenPost.images, imageIndex, setImageIndex)}
+                    {getImageSlider(activeImage, setActiveImage,currentOpenPost.images, imageIndex, setImageIndex)}
                     <div dangerouslySetInnerHTML={{ __html: currentOpenPost.refactored.html }} />
                 </>
             )
@@ -68,12 +70,13 @@ function getPreview(setNotification, currentOpenPost, closePreview, imageIndex, 
     }
 }
 
-function getImageSlider(images, imageIndex, setImageIndex) {
+function getImageSlider(activeImage, setActiveImage,images, imageIndex, setImageIndex) {
     if (images.length > 0)
         return (
             <div className="imageslider">
-
-                <img alt="galery" src={images[imageIndex]}></img>
+                <span>{imageIndex + 1}/{images.length}</span>
+                <img className={activeImage} alt="galery" src={images[imageIndex]}></img>
+                <div className={activeImage} onClick={()=>setActiveImage("")} id="imageslider__overlay"></div>
                 <button className="imageslider__prev" onClick={() => setImageIndex(() => {
                     let newIndex = imageIndex - 1
                     if (newIndex < 0) newIndex = images.length - 1
@@ -84,6 +87,7 @@ function getImageSlider(images, imageIndex, setImageIndex) {
                     if (newIndex > images.length - 1) newIndex = 0
                     return newIndex
                 })}>&rarr;</button>
+                <button onClick={()=>setActiveImage("active")} id="imageslider__zoom">&#10010;</button>
             </div>
         )
 }

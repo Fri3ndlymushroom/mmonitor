@@ -4,7 +4,6 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
 
-header("Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure");
 
 const puppeteer = require('puppeteer')
 
@@ -18,7 +17,8 @@ exports.getPostsCallable = functions.https.onCall(async (data, context) => {
 
 async function getPosts() {
     let pushshiftData = '';
-    let url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=mechmarket&sort=desc&sort_type=created_utc&frequency=second&before=' + "1s" + '&size=500'
+    let url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=mechmarket&sort=desc&sort_type=created_utc&frequency=second&before=1s&size=500'
+
 
 
     https.get(url, async (resp) => {
@@ -63,7 +63,7 @@ async function updatePostDatabase(data) {
     })
 
     // push all non doublicate posts to db
-    let i = 0
+    console.log("srtarted")
     const browser = await puppeteer.launch()
     for (let post of data) {
         if (!post.doublicate) {
@@ -79,6 +79,7 @@ async function updatePostDatabase(data) {
         i++
     }
     await browser.close()
+    console.log("finished")
 }
 
 
@@ -105,27 +106,11 @@ async function getImgurLink(browser, post) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        await timeout(50);
+        await timeout(100);
 
 
         const el = await page.$$("img.image-placeholder")
-        //const el = await page.$x('//*[@id="root"]/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/img')
-        //                          *[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div[5]/div/div/img
-        /*
-        console.log("el: "+el.length)
-        await page.evaluate(()=>{
-            console.log("eleadsf")
-            let elements = document.getElementsByClassName('image-placeholder');
- 
- 
- 
-            console.log("elements: "+elements.length)
-        })*/
 
-
-        console.log(el.length)
-
-        
 
 
 
@@ -179,3 +164,12 @@ exports.reportPost = functions.https.onCall(async (data, context) => {
         db.collection("posts").doc(post).update(docData)
     }
 });
+
+
+
+    // id: pved49
+    // https://api.pushshift.io/reddit/submission/comment_ids/pv6qoa
+    // example: https://api.pushshift.io/reddit/submission/comment_ids/6uey5x
+    //  https://api.pushshift.io/reddit/comment/search/?link_id=pvdfel&limit=1000
+
+    // https://api.pushshift.io/reddit/submission/search/?ids=bcxguf
