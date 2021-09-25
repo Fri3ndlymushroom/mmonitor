@@ -74,7 +74,7 @@ function filterPosts(data, settings) {
     //appearance
 
     //broken
-    if(data.reported.broken)data.classification.broken = true
+    if (data.reported.broken) data.classification.broken = true
 
     if (settings[2].options.show === false && data.classification.broken) {
         data.show = false
@@ -180,6 +180,7 @@ function filterOutLinks(data) {
         let html = "<span>" + data.selftext + "</span>"
         let links = html.match(/\[(.*?)\]( *)\((.*)\)/g)
 
+
         let sublinks = []
         if (links != null) {
 
@@ -193,7 +194,7 @@ function filterOutLinks(data) {
             let i = -1
             html = html.replace(/\[(.*)\]( *)\((.*)\)/g, function () {
                 i++
-                let link = ("<a href='" + sublinks[i].url + "'>" + sublinks[i].link_text + "</a>")
+                let link = ("<a rel='noreferrer' target='_blank'  href='" + sublinks[i].url + "'>" + sublinks[i].link_text + "</a>")
                 return link
             })
         }
@@ -248,7 +249,16 @@ function filterOutTables(data) {
 
         lines.forEach(function (line) {
             if (line !== "") {
-                structure.push(line.split("|"))
+
+                let columns = line.split("|")
+
+                columns.forEach(function(element, i){
+                    if(element === ""){
+                        columns.splice(i, 1)
+                    }
+                })
+
+                structure.push(columns)
             }
         })
         table.structure = structure
@@ -273,6 +283,32 @@ function filterOutTables(data) {
 
     data.refactored.html = refactored
     data.refactored.tables = tables
+
+
+    let i = 0
+    data.refactored.html = data.refactored.html.replace(/\[table.*?\]/gm, () => {
+        let tableHtml = "<table>"
+        console.log(tables[i])
+        tables[i].structure.forEach(function(row){
+            tableHtml += "<tr>"
+            row.forEach(function(element){
+                tableHtml += "<th>"+element+"</th>"
+            })
+
+            tableHtml += "</tr>"
+        })
+
+
+
+        tableHtml += "</table>"
+        i++
+        return tableHtml
+    })
+
+
+
+
+
 
     return data
 }
@@ -321,7 +357,7 @@ function classifyData(data) {
         data.classification.broken = true
     }
 
-    if(data.selftext.match(/\[removed\]/gm) !== null){
+    if (data.selftext.match(/\[removed\]/gm) !== null) {
         data.classification.borken = true
         return data
     }
@@ -333,7 +369,7 @@ function classifyData(data) {
         return data
     }
 
-    
+
 
 
 
