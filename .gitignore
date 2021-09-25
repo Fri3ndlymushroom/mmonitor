@@ -23,4 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 firebase-debug.log
+firestore-debug.log
 # git filter-branch --tree-filter 'rm -f firebase-debug.log' HEAD
+# git filter-branch --index-filter 'git rm --cached --ignore-unmatch firestore-debug.log' HEAD
