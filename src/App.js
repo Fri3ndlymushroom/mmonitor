@@ -17,6 +17,7 @@ import "./css/posts.css"
 import "./css/text.css"
 import "./css/postpreview.css"
 import "./css/heading.css"
+import "./css/tooltip.css"
 
 // js
 import getSettings, {getOptionsArray} from "./js/settings"

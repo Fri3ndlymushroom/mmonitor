@@ -4,6 +4,8 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
 
+header("Set-Cookie: cross-site-cookie=whatever; SameSite=None; Secure");
+
 const puppeteer = require('puppeteer')
 
 exports.getPosts = functions.pubsub.schedule("every 15 minutes from 00:00 to 23:59").timeZone("Europe/London").onRun((context) => {

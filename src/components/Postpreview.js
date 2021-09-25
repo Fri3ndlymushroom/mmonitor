@@ -31,7 +31,7 @@ function getPreview(setNotification, currentOpenPost, closePreview, imageIndex, 
         <div className="post__header">
             <h2><a rel="noreferrer" target="_blank" href={currentOpenPost.full_link}>Full Post</a></h2>
 
-            <button className="button--report" onClick={() => reportPost(currentOpenPost.id, setNotification)}>&#9873;</button>
+            <button data-tooltip="report broken post" data-tooltip-location="bottom" className="button--report tooltip__parent" onClick={() => reportPost(currentOpenPost.id, setNotification)}>&#9873;</button>
             <button className="button--close" onClick={() => closePreview()}>&#10006;</button>
 
         </div>
