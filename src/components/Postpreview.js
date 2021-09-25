@@ -8,9 +8,13 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
 
     const [imageIndex, setImageIndex] = useState(0)
 
+
+
     function closePreview() {
         setCurrentOpenPost({ refactored: { html: '<p></p>' } })
     }
+
+
 
 
     return (

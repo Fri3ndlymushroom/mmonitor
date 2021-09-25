@@ -66,12 +66,10 @@ async function updatePostDatabase(data) {
     for (let post of data) {
         if (!post.doublicate) {
 
-
             const imagePost = await getImgurLink(browser, post).catch(err => console.log("🛑" + err))
-            console.log("imgs: " + imagePost.images.length, "p: " + i)
+            //console.log("imgs: " + imagePost.images.length, "p: " + i)
 
-            imagePost.reported = {users: [], broken: false}
-
+            imagePost.reported = { users: [], broken: false }
             await db.collection("posts").doc(post.id).set(
                 imagePost
             )
@@ -88,29 +86,56 @@ async function getImgurLink(browser, post) {
     let urls = []
     post.images = []
 
+
     if (url !== null) {
+
+
         url = url[0]
 
 
         const page = await browser.newPage()
         await page.goto(url)
+
+
+
+
+        function timeout(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        await timeout(50);
+
+
+        const el = await page.$$("img.image-placeholder")
+        //const el = await page.$x('//*[@id="root"]/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/img')
+        //                          *[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div[5]/div/div/img
         /*
-        let el = []
+        console.log("el: "+el.length)
         await page.evaluate(()=>{
-            el = $('img.image-placeholder').toArray()
+            console.log("eleadsf")
+            let elements = document.getElementsByClassName('image-placeholder');
+ 
+ 
+ 
+            console.log("elements: "+elements.length)
         })*/
 
-        const el = await page.$x('//*[@id="root"]/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/img')
-        //                          *[@id="root"]/div/div[1]/div[1]/div[3]/div/div[1]/div[2]/div/div/div[2]/div/div/div[5]/div/div/img
+
+        console.log(el.length)
+
+        
+
+
+
+
+
 
         await Promise.all(el.map(async (element) => {
             const src = await element.getProperty('src')
             const scrText = await src.jsonValue()
 
             urls.push(scrText)
-            return
         }));
-
 
 
         await page.close();
@@ -127,25 +152,25 @@ async function getImgurLink(browser, post) {
 }
 
 exports.reportPost = functions.https.onCall(async (data, context) => {
-    
+
     post = data.document
     user = context.auth.uid
     docData = {}
 
 
-    await db.collection("posts").doc(post).get().then((doc)=>{
+    await db.collection("posts").doc(post).get().then((doc) => {
         docData = doc.data()
     })
 
     let alreadyReported = false
-    docData.reported.users.forEach(function(element){
-        if(user === element) alreadyReported =  true
+    docData.reported.users.forEach(function (element) {
+        if (user === element) alreadyReported = true
     })
 
-    if(!alreadyReported){
+    if (!alreadyReported) {
         docData.reported.users.push(user)
 
-        if(docData.reported.users.length > 10){
+        if (docData.reported.users.length > 10) {
             docData.reported.broken = true
         }
 

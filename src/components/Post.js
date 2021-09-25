@@ -7,6 +7,10 @@ export default function Post({ data, openPost }) {
         flairClass = data.link_flair_text.replace(/ /g, "_")
     }
 
+    if(data.images.length === 0){
+        console.log(data.selftext)
+    }
+
 
     const [imageIndex, setImageIndex] = useState(0)
     const [hovering, setHovering] = useState(false)
@@ -22,6 +26,7 @@ export default function Post({ data, openPost }) {
         }, 1000)
         return () => clearInterval(loop)
     })
+
 
 
     return (
