@@ -17,8 +17,7 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
 
 
 
-    console.log(currentOpenPost)
-
+    console.log(currentOpenPost.selftext)
     return (
         <div id="postpreview">
             {

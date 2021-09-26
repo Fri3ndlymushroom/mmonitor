@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import firebase, { auth } from "../firebase";
 import "../css/login.css"
 
@@ -20,7 +20,7 @@ export default function Login({ loginClass, setLoginOpen }) {
                 </div>
             )
         } else {
-            return <button onClick={() => loginWithGoogle()}><img src="./google_button.png"></img></button>
+            return <button onClick={() => loginWithGoogle()}><img alt="google login" src="./google_button.png"></img></button>
         }
     }
 

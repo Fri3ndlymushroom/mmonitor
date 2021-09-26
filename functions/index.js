@@ -76,7 +76,6 @@ async function updatePostDatabase(data) {
                 imagePost
             )
         }
-        i++
     }
     await browser.close()
     console.log("finished")

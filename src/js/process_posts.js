@@ -175,10 +175,20 @@ function filterOutSpecialText(data) {
 }
 
 function filterOutLinks(data) {
+
+
+
     if (data.selftext) {
         data.selftext = data.selftext.replace(/\\/gm, "")
-        let html = "<span>" + data.selftext + "</span>"
-        let links = html.match(/\[(.*?)\]( *)\((.*)\)/g)
+        let html = data.selftext
+
+
+
+
+        let links = html.match(/\[(.*?)\]( *)\((.*?)\)/g)
+
+
+
 
 
         let sublinks = []
@@ -192,11 +202,16 @@ function filterOutLinks(data) {
                     })
             })
             let i = -1
-            html = html.replace(/\[(.*)\]( *)\((.*)\)/g, function () {
+            html = html.replace(/\[(.*?)\]( *?)\((.*?)\)/g, function () {
                 i++
                 let link = ("<a rel='noreferrer' target='_blank'  href='" + sublinks[i].url + "'>" + sublinks[i].link_text + "</a>")
                 return link
             })
+        }
+
+        if (data.author == "ipley") {
+            console.log(links)
+            console.log(html)
         }
 
         data.refactored.html = html
@@ -205,15 +220,17 @@ function filterOutLinks(data) {
 }
 
 function filterOutTables(data) {
+
     let text = data.refactored.html
     let lines = text.match(/^\s*.*$/gm)
     let tables = []
     let current = ""
 
+
     // get possible lines
     let linenum = 0
     lines.forEach(function (element, i) {
-        if (element.match(/\|/g) != null) {
+        if (element.match(/\|/g) !== null) {
             current += element + "\n"
         } else if (element === "") {
         } else {
@@ -226,9 +243,20 @@ function filterOutTables(data) {
             linenum = i
         }
     })
+
+
+
+
+
+
+
     if (current !== "") {
         tables.push({ text: current, start: linenum + 1, end: lines.length - 1, })
     }
+
+
+
+
 
     // refactor tables
     tables.forEach(function (table) {
@@ -252,11 +280,6 @@ function filterOutTables(data) {
 
                 let columns = line.split("|")
 
-                columns.forEach(function(element, i){
-                    if(element === ""){
-                        columns.splice(i, 1)
-                    }
-                })
 
                 structure.push(columns)
             }
@@ -288,11 +311,12 @@ function filterOutTables(data) {
     let i = 0
     data.refactored.html = data.refactored.html.replace(/\[table.*?\]/gm, () => {
         let tableHtml = "<table>"
-        console.log(tables[i])
-        tables[i].structure.forEach(function(row){
+
+        tables[i].structure.forEach(function (row) {
             tableHtml += "<tr>"
-            row.forEach(function(element){
-                tableHtml += "<th>"+element+"</th>"
+            row.forEach(function (element) {
+
+                tableHtml += "<th>" + element + "</th>"
             })
 
             tableHtml += "</tr>"

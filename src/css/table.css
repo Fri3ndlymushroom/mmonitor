@@ -1,8 +1,11 @@
 th, td {
-    background-color: var(--bg3);
+    background-color: var(--bg2);
     padding: 10px 20px;
+
 }
 
 table {
     width: 100%;
+    background-color: var(--bg3);
+    border-radius: var(--br);
 }
