@@ -14,10 +14,11 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
         setCurrentOpenPost({ refactored: { html: '<p></p>' } })
     }
 
+    console.log(currentOpenPost.refactored.html)
 
 
 
-    console.log(currentOpenPost.selftext)
+
     return (
         <div id="postpreview">
             {
@@ -55,7 +56,7 @@ function getPreview(activeImage, setActiveImage, setNotification,  currentOpenPo
                     {header}
                     <h2>Has: {currentOpenPost.classification.has}</h2>
                     <h2>Wants: {currentOpenPost.classification.wants}</h2>
-                    <h3>r/{currentOpenPost.author} from {currentOpenPost.classification.location}</h3>
+                    <h3>u/{currentOpenPost.author} from {currentOpenPost.classification.location}</h3>
                     {getImageSlider(activeImage, setActiveImage,currentOpenPost.images, imageIndex, setImageIndex)}
                     <div dangerouslySetInnerHTML={{ __html: currentOpenPost.refactored.html }} />
                 </>

@@ -7,12 +7,68 @@ const db = admin.firestore();
 
 const puppeteer = require('puppeteer')
 
-exports.getPosts = functions.pubsub.schedule("every 15 minutes from 00:00 to 23:59").timeZone("Europe/London").onRun((context) => {
-    getPosts()
+exports.getPosts = functions.pubsub.schedule("every 15 minutes from 00:00 to 23:59").timeZone("Europe/London").onRun(async (context) => {
+    await getPosts()
+    //await getUserCredibility()
 });
 exports.getPostsCallable = functions.https.onCall(async (data, context) => {
     await getPosts()
+    //await getUserCredibility()
 });
+
+
+// id: pq43ke
+// get all comments =  https://api.pushshift.io/reddit/submission/comment_ids/pq43ke
+
+// comment = hdtz6l8 // author needs to be mechkbot
+// http://api.pushshift.io/reddit/search/comment/?ids=hdtz6l8
+
+
+async function getUserCredibility() {
+    let postids = []
+    await db.collection("posts").where("credibility.found", "==", false).get().then((foundPosts) => {
+        foundPosts.forEach(function (post) {
+            postids.push(post.data().id)
+        })
+    })
+
+
+
+
+    for(let id of postids){
+
+
+        function timeout(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        await timeout(600);
+
+        let commentids= ""
+        https.get("https://api.pushshift.io/reddit/submission/comment_ids/"+id, async (resp) => {
+            resp.on('data', (chunk) => {
+                commentids += chunk;
+            });
+            resp.on('end', () => {
+                commentids = JSON.parse(commentids)
+                getComments(commentids)
+            })
+
+        }).on("error", (err) => {
+            console.log("Error: " + err.message);
+        });
+    }
+}
+
+function getComments(ids){
+    console.log(ids)
+}
+
+
+
+
+
+
 
 
 async function getPosts() {
@@ -72,6 +128,7 @@ async function updatePostDatabase(data) {
             //console.log("imgs: " + imagePost.images.length, "p: " + i)
 
             imagePost.reported = { users: [], broken: false }
+            imagePost.credibility = { found: false, text: "", data: { joined: "", link_karma: 0, comment_karma: 0, trades: 0 } }
             await db.collection("posts").doc(post.id).set(
                 imagePost
             )
@@ -165,10 +222,3 @@ exports.reportPost = functions.https.onCall(async (data, context) => {
 });
 
 
-
-    // id: pved49
-    // https://api.pushshift.io/reddit/submission/comment_ids/pv6qoa
-    // example: https://api.pushshift.io/reddit/submission/comment_ids/6uey5x
-    //  https://api.pushshift.io/reddit/comment/search/?link_id=pvdfel&limit=1000
-
-    // https://api.pushshift.io/reddit/submission/search/?ids=bcxguf

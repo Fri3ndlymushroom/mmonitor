@@ -75,6 +75,7 @@
     padding: 0;
     border: 0;
     text-align: start;
+    overflow-x: hidden;
 }
 
 .post:hover {
