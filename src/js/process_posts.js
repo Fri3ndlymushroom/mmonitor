@@ -184,7 +184,6 @@ function filterOutLinks(data) {
 
 
 
-
         let links = html.match(/\[(.*?)\]( *)\((.*?)\)/g)
 
 
@@ -204,18 +203,27 @@ function filterOutLinks(data) {
             let i = -1
             html = html.replace(/\[(.*?)\]( *?)\((.*?)\)/g, function () {
                 i++
-                let link = ("<a rel='noreferrer' target='_blank'  href='" + sublinks[i].url + "'>" + sublinks[i].link_text + "</a>")
+                let link = ("<a rel='noreferrer' target='_blank' href='" + sublinks[i].url + "'>" + sublinks[i].link_text + "</a>")
                 return link
             })
         }
 
-        if (data.author == "ipley") {
-            console.log(links)
-            console.log(html)
-        }
+
+
+        
+        let i = 0
+        html = html.replace(/( |^)https*:\/\/(.*?)(?= |$)/gm, ()=>{
+            let link = html.match(/( |^)https*:\/\/(.*?)(?= |$)/gm)
+            let newLink = "<a rel='noreferrer' target='_blank' href='"+link[i]+"'>"+link[i]+"</a>"
+            i++
+            return newLink
+        })
+
+
 
         data.refactored.html = html
     }
+
     return data
 }
 
