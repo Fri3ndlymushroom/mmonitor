@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default function Dropdown({setting, changeSettings}) {
+export default function Dropdown({ setting, changeSettings }) {
 
     function toggleOption(ls, option) {
         let setting = JSON.parse(localStorage.getItem(ls))
@@ -16,7 +16,12 @@ export default function Dropdown({setting, changeSettings}) {
             <div id={setting.id} className={"dropdown__content"}>
                 {
                     setting.arr.map(option => {
-                        return (<div key={option.title}><input className="dropdown__checkbox" defaultChecked={option.checked} id={setting.ls + "-" + option.title} onClick={() => toggleOption(setting.ls, option)} type="checkbox"></input><span>{option.title}</span></div>)
+                        return (
+                            <div key={option.title}>
+                                <input className="dropdown__checkbox" defaultChecked={option.checked} id={setting.ls + "-" + option.title} onClick={() => toggleOption(setting.ls, option)} type="checkbox"></input>
+                                <span>{option.title}</span>
+                            </div>
+                        )
                     })
                 }
             </div>
