@@ -3,7 +3,7 @@
     padding: 5px 10px;
     font-size: 2rem;
     border: none;
-    color: #0c1016;
+    color: #000000;
     filter: url("#gooey");
     position: relative;
     background-color: var(--hl);

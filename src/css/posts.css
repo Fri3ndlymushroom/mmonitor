@@ -97,44 +97,45 @@
 }
 
 .flair {
+    color: #000000;
+    font-weight: bold;
     padding: 5px 10px;
     border-radius: var(--br)
 }
 
 .flair--Selling {
-    background-color: #99E2B4
+    background-color: var(--fl1)
 }
 
 .flair--Buying {
-    background-color: #88D4AB
+    background-color: var(--fl2)
 }
 
 .flair--Trading {
-    background-color: #78C6A3
+    background-color: var(--fl3)
 }
 
 .flair--Artisan {
-    background-color: #67B99A
+    background-color: var(--fl4)
 }
 
 .flair--Service {
-    background-color: #56AB91
+    background-color: var(--fl5)
 }
 
 .flair--Vendor {
-    background-color: #469D89
+    background-color: var(--fl6)
 }
 
 .flair--Bulk {
-    background-color: #358F80
+    background-color: var(--fl7)
 }
-
 .flair--Interest_Check {
-    background-color: #248277
+    background-color: var(--fl8)
 }
 
 .flair--Group_Buy {
-    background-color: #14746F
+    background-color: var(--fl9)
 }
 
 .button--close-wrapper{
