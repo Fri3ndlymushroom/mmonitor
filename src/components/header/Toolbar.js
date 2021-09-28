@@ -8,8 +8,7 @@ import "./toolbar.css"
 
 
 
-export default function Toolbar({setOptionsOpen}) {
-
+export default function Toolbar({ setOptionsOpen, setPopup}) {
 
 
 
@@ -25,7 +24,7 @@ export default function Toolbar({setOptionsOpen}) {
                     </filter>
                 </defs>
             </svg>
-            <h1 id="title">MMonitor
+            <a href="index.html" id="title">MMonitor
                 <span className="bubbles">
                     <span className="bubble"></span>
                     <span className="bubble"></span>
@@ -38,8 +37,20 @@ export default function Toolbar({setOptionsOpen}) {
                     <span className="bubble"></span>
                     <span className="bubble"></span>
                 </span>
-            </h1>
-            <button onClick={()=>setOptionsOpen(true)}>&#9881;</button>
+            </a>
+
+
+
+            <div>
+                <button onClick={()=>{setPopup({
+                    active: "active", 
+                    text:
+                    <>
+                        <h3>MMonitor is a tool that automatically searches r/mm and displays the posts more clearly.</h3>
+                    </>
+                })}}>&#8505;</button>
+                <button onClick={() => setOptionsOpen(true)}>&#9881;</button>
+            </div>
         </section>
     )
 }

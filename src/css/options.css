@@ -4,7 +4,7 @@
     grid-column: 2;
     grid-row: 1;
     z-index: 4;
-    margin:0 30px;
+    margin:0px 30px 30px 30px;
     padding: 30px;
     border-radius: var(--br);
 }
@@ -68,12 +68,12 @@
     padding: 5px 10px;
     margin: 0;
     border: none;
-    background-color: #6ca78c;
+    background-color: var(--hl);
     transition: 0.5s;
 }
 
 
 .options__button:hover {
-    background-color: #4e6b5e;
+    background-color: var(--hlb);
 }
 

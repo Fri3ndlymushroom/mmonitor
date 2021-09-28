@@ -14,11 +14,6 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
         setCurrentOpenPost({ refactored: { html: '<p></p>' } })
     }
 
-    console.log(currentOpenPost.refactored.html)
-
-
-
-
     return (
         <div id="postpreview">
             {

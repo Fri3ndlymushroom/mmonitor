@@ -1,0 +1,38 @@
+#popup {
+    background-color: var(--bg2);
+    height: 50vh;
+    width: 50vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 11;
+    border-radius: var(--br);
+    padding: 30px;
+    transition: 0.5s;
+    transform: scale(0)
+}
+#popup.active {
+    transform: scale(1)
+}
+
+
+
+#popup__overlay {
+    z-index: 10;
+    background-color: #00000070;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: var(--br);
+    display: none;
+}
+
+#popup__overlay.active {
+    display: inline;
+}

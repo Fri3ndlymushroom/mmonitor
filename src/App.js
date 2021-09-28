@@ -10,7 +10,7 @@ import Scripts from './components/Scripts'
 import Postpreview from './components/Postpreview'
 import Login from './components/Login.js'
 import Notification from './components/Notification.js'
-
+import Popup from './components/Popup.js'
 //style
 import "./css/index.css"
 import "./css/posts.css"
@@ -91,11 +91,13 @@ function App() {
 
     const [notification, setNotification] = useState("")
 
+    const [popup, setPopup] = useState({active: "", text: "Hello world"})
+
     return (
         <>
             <Scripts />
             <div id="content">
-                <Toolbar setOptionsOpen={setOptionsOpen} />
+                <Toolbar setOptionsOpen={setOptionsOpen} setPopup={setPopup}/>
                 <section id={"body"} className={sidebarClass}>
                     <section id="posts">
                         <Posts processedPostsData={processedPostsData} openPost={openPost} />
@@ -107,6 +109,7 @@ function App() {
                 </section>
                 <section>
                 </section>
+                <Popup setPopup={setPopup} popup={popup}/>
                 <Notification notification={notification}/>
             </div>
         </>

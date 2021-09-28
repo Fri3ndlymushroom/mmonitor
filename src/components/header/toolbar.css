@@ -1,0 +1,19 @@
+
+#toolbar {
+    margin: 30px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    
+}
+
+#toolbar>div>button{
+    border: none;
+    width: 50px;
+    font-size: 30px;
+    padding: auto;
+    color: var(--hl);
+}
+
