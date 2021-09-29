@@ -8,7 +8,7 @@ import "./toolbar.css"
 
 
 
-export default function Toolbar({ setOptionsOpen, setPopup}) {
+export default function Toolbar({ setOptionsOpen, setPopup }) {
 
 
 
@@ -24,31 +24,35 @@ export default function Toolbar({ setOptionsOpen, setPopup}) {
                     </filter>
                 </defs>
             </svg>
-            <a href="index.html" id="title">MMonitor
-                <span className="bubbles">
-                    <span className="bubble"></span>
-                    <span className="bubble"></span>
-                    <span className="bubble"></span>
-                    <span className="bubble"></span>
-                    <span className="bubble"></span>
-                    <span className="bubble"></span>
-                    <span className="bubble"></span>
-                    <span className="bubble"></span>
-                    <span className="bubble"></span>
-                    <span className="bubble"></span>
-                </span>
-            </a>
-
+            <div>
+                <a href="index.html" id="title">MMonitor
+                    <span className="bubbles">
+                        <span className="bubble"></span>
+                        <span className="bubble"></span>
+                        <span className="bubble"></span>
+                        <span className="bubble"></span>
+                        <span className="bubble"></span>
+                        <span className="bubble"></span>
+                        <span className="bubble"></span>
+                        <span className="bubble"></span>
+                        <span className="bubble"></span>
+                        <span className="bubble"></span>
+                    </span>
+                </a>
+                <span style={{display: "none", "marginLeft": "10px", color:"grey", fontWeight: "bold"}}>Alpha</span>
+            </div>
 
 
             <div>
-                <button onClick={()=>{setPopup({
-                    active: "active", 
-                    text:
-                    <>
-                        <h3>MMonitor is a tool that automatically searches r/mm and displays the posts more clearly.</h3>
-                    </>
-                })}}>&#8505;</button>
+                <button onClick={() => {
+                    setPopup({
+                        active: "active",
+                        text:
+                            <>
+                                <h3>MMonitor is a tool that automatically searches r/mm and displays the posts more clearly.</h3>
+                            </>
+                    })
+                }}>&#8505;</button>
                 <button onClick={() => setOptionsOpen(true)}>&#9881;</button>
             </div>
         </section>

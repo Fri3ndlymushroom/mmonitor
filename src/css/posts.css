@@ -97,7 +97,7 @@
 }
 
 .flair {
-    color: #000000;
+    color: var(--text-sec);
     font-weight: bold;
     padding: 5px 10px;
     border-radius: var(--br)

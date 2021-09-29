@@ -20,10 +20,12 @@ firebase.initializeApp(firebaseConfig);
 export const db = firebase.firestore();
 export const auth = firebase.auth();
 
-firebase.functions().useEmulator("localhost", 5001);
-db.useEmulator('localhost', 8080);
-auth.useEmulator('http://localhost:9099/', { disableWarnings: true });
 
+if (window.location.host === "localhost:3000") {
+    firebase.functions().useEmulator("localhost", 5001);
+    db.useEmulator('localhost', 8080);
+    auth.useEmulator('http://localhost:9099/', { disableWarnings: true });
+}
 export default firebase
 
 // netstat -aon | findstr :8080

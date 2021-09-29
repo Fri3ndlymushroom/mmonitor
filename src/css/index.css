@@ -2,14 +2,14 @@
     --bg1: #0D1B2A;
     --bg2: #1B263B;
     --bg3: #2f3d57;
-    --text: #E0E1DD;
+    --text-main: #E0E1DD;
+    --text-sec: #1B263B;
     --link: #4194dd;
     --br: 10px;
     --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
     --product__columns: 4;
     --hl: #d9ed92;
     --hlb: #d9ed92;
-
     /*
     --fl1:#99E2B4;
     --fl2:#88D4AB;
@@ -20,21 +20,28 @@
     --fl7:#358F80;
     --fl8:#248277;
     --fl9:#14746F;*/
+    --fl1: #d9ed92;
+    --fl2: #b5e48c;
+    --fl3: #99d98c;
+    --fl4: #76c893;
+    --fl5: #52b69a;
+    --fl6: #34a0a4;
+    --fl7: #168aad;
+    --fl8: #1a759f;
+    --fl9: #1e6091;
+}
 
-    --fl1:#d9ed92;
-    --fl2:#b5e48c;
-    --fl3:#99d98c;
-    --fl4:#76c893;
-    --fl5:#52b69a;
-    --fl6:#34a0a4;
-    --fl7:#168aad;
-    --fl8:#1a759f;
-    --fl9:#1e6091;
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    position: relative
 }
 
 * {
     font-family: Comfortaa;
-    color: var(--text)
+    color: var(--text-main)
 }
 
 body {
@@ -44,7 +51,7 @@ body {
     background-color: var(--bg1);
     padding: 0;
     margin: 0;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 
 button {
@@ -54,6 +61,7 @@ button {
     border-radius: var(--br);
     cursor: pointer;
     transition: 0.5s;
+    font-size: 20px;
 }
 
 button:hover {
@@ -64,13 +72,11 @@ button:active {
     transform: scale(0.9)
 }
 
-
 a {
     text-decoration: none;
     color: var(--link);
     position: relative;
 }
-
 
 a::before {
     content: '';
@@ -91,7 +97,7 @@ a::before {
     }
 }
 
-.button--close{
+.button--close {
     font-size: 1.5em;
 }
 
@@ -111,13 +117,15 @@ a::before {
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-    background: var(--text);
+    background: var(--text-main);
     border-radius: var(--br)
 }
 
 #content {
+    max-width: calc(100%);
     max-height: calc(100vh);
     height: calc(100vh);
     display: grid;
-    grid-template-rows: minmax(0, 100px) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 70px) minmax(0, 1fr);
+    overflow-x: hidden;
 }

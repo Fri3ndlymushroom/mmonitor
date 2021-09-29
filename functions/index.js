@@ -12,89 +12,50 @@ exports.getPosts = functions.pubsub.schedule("every 15 minutes from 00:00 to 23:
     //await getUserCredibility()
 });
 exports.getPostsCallable = functions.https.onCall(async (data, context) => {
+    console.log(1)
     await getPosts()
+    console.log(7)
     //await getUserCredibility()
 });
-
-
-// id: pq43ke
-// get all comments =  https://api.pushshift.io/reddit/submission/comment_ids/pq43ke
-
-// comment = hdtz6l8 // author needs to be mechkbot
-// http://api.pushshift.io/reddit/search/comment/?ids=hdtz6l8
-
-
-async function getUserCredibility() {
-    let postids = []
-    await db.collection("posts").where("credibility.found", "==", false).get().then((foundPosts) => {
-        foundPosts.forEach(function (post) {
-            postids.push(post.data().id)
-        })
-    })
-
-
-
-
-    for(let id of postids){
-
-
-        function timeout(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        await timeout(600);
-
-        let commentids= ""
-        https.get("https://api.pushshift.io/reddit/submission/comment_ids/"+id, async (resp) => {
-            resp.on('data', (chunk) => {
-                commentids += chunk;
-            });
-            resp.on('end', () => {
-                commentids = JSON.parse(commentids)
-                getComments(commentids)
-            })
-
-        }).on("error", (err) => {
-            console.log("Error: " + err.message);
-        });
-    }
-}
-
-function getComments(ids){
-    console.log(ids)
-}
-
-
-
-
 
 
 
 
 async function getPosts() {
+
+    console.log(2)
     let pushshiftData = '';
     let url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=mechmarket&sort=desc&sort_type=created_utc&frequency=second&before=1s&size=500'
 
+    let p = new Promise((resolve, reject)=>{
+        https.get(url, async (resp) => {
 
-
-    https.get(url, async (resp) => {
-
-        // A chunk of data has been received.
-        resp.on('data', (chunk) => {
-            pushshiftData += chunk;
+            // A chunk of data has been received.
+            resp.on('data', (chunk) => {
+                pushshiftData += chunk;
+            });
+    
+            // The whole response has been received. Print out the result.
+            resp.on('end', async() => {
+                console.log(3)
+                pushshiftData = JSON.parse(pushshiftData)
+                await updatePostDatabase(pushshiftData)
+                console.log(4)
+                resolve("failed")
+            })
+    
+        }).on("error", (err) => {
+            reject("failed")
+            console.log("Error: " + err.message);
         });
+    })
 
-        // The whole response has been received. Print out the result.
-        resp.on('end', () => {
+    await p.then((message)=>{
+        console.log(5)
+    })  
 
-            pushshiftData = JSON.parse(pushshiftData)
-            updatePostDatabase(pushshiftData)
-        })
 
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-    });
-
+    console.log(6)
 }
 
 async function updatePostDatabase(data) {
@@ -120,18 +81,20 @@ async function updatePostDatabase(data) {
 
     // push all non doublicate posts to db
     console.log("srtarted")
+    let i = 0
     const browser = await puppeteer.launch()
     for (let post of data) {
         if (!post.doublicate) {
 
             const imagePost = await getImgurLink(browser, post).catch(err => console.log("🛑" + err))
-            //console.log("imgs: " + imagePost.images.length, "p: " + i)
+            console.log("found: " + i)
 
             imagePost.reported = { users: [], broken: false }
             imagePost.credibility = { found: false, text: "", data: { joined: "", link_karma: 0, comment_karma: 0, trades: 0 } }
             await db.collection("posts").doc(post.id).set(
                 imagePost
             )
+            i++
         }
     }
     await browser.close()
@@ -220,5 +183,59 @@ exports.reportPost = functions.https.onCall(async (data, context) => {
         db.collection("posts").doc(post).update(docData)
     }
 });
+
+
+
+
+// id: pq43ke
+// get all comments =  https://api.pushshift.io/reddit/submission/comment_ids/pq43ke
+
+// comment = hdtz6l8 // author needs to be mechkbot
+// http://api.pushshift.io/reddit/search/comment/?ids=hdtz6l8
+
+
+async function getUserCredibility() {
+    let postids = []
+    await db.collection("posts").where("credibility.found", "==", false).get().then((foundPosts) => {
+        foundPosts.forEach(function (post) {
+            postids.push(post.data().id)
+        })
+    })
+
+
+
+
+    for(let id of postids){
+
+
+        function timeout(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        await timeout(600);
+
+        let commentids= ""
+        https.get("https://api.pushshift.io/reddit/submission/comment_ids/"+id, async (resp) => {
+            resp.on('data', (chunk) => {
+                commentids += chunk;
+            });
+            resp.on('end', () => {
+                commentids = JSON.parse(commentids)
+                getComments(commentids)
+            })
+
+        }).on("error", (err) => {
+            console.log("Error: " + err.message);
+        });
+    }
+}
+
+function getComments(ids){
+    console.log(ids)
+}
+
+
+
+
 
 

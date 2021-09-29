@@ -1,12 +1,19 @@
 
 #toolbar {
-    margin: 30px;
+    margin: 0px 30px;
+    padding: 0px 10px;
+    border-radius:0 0 var(--br) var(--br);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
-    
+    overflow: hidden;    
+    background-color: var(--bg2);
+}
+
+
+#toolbar>div {
+    white-space: nowrap;
 }
 
 #toolbar>div>button{
