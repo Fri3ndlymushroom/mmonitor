@@ -51,12 +51,14 @@ export default function Toolbar({ setOptionsOpen, setPopup }) {
                             <div id="info">
                                 <div>
                                     <h3>Welcome to MMonitor. </h3>
-                                    <span>MMonitor is a self updating view of r/mm and makes browsing and finding your favourite keyboard parts more convenient</span>
+                                    <h4>Hey, my name is Moritz aka FriendlyMushroom and I am the creator of MMonitor</h4>
+                                    <p>MMonitor is a self updating view of r/mm and makes browsing and finding your favourite keyboard parts more convenient.</p>
+                                    <p>I hope you enjoy MMonitor</p>
                                 </div>
                                 <span id="links">
-                                    <a href="https://github.com/Fri3ndlymushroom/mmonitor">GitHub</a>
-                                    <a href="https://www.patreon.com/FriendlyMushroom">Patreon</a>
-                                    <a href="https://ko-fi.com/friendlymushroom">KoFi</a>
+                                    <a href="https://github.com/Fri3ndlymushroom/mmonitor"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png"></img>Github</a>
+                                    <a href="https://www.patreon.com/FriendlyMushroom"><img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Patreon_logo.svg"></img>Patreon</a>
+                                    <a href="https://ko-fi.com/friendlymushroom"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5ca5bf1dff3c03fbf7cc9b3c_Kofi_logo_RGB_rounded.png"></img>Ko-Fi</a>
                                 </span>
                             </div>
                     })
