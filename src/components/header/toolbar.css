@@ -1,26 +1,31 @@
-
 #toolbar {
-    margin: 0px 30px;
+    margin: 0px 40px  0px 30px;
     padding: 0px 10px;
-    border-radius:0 0 var(--br) var(--br);
+    border-radius: 0 0 var(--br) var(--br);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    overflow: hidden;    
+    overflow: hidden;
     background-color: var(--bg2);
+    box-shadow: var(--bs);
 }
 
+@media screen and (max-width: 1200px) {
+
+    #toolbar {
+        margin: 0px 20px  0px 10px;
+    }
+}
 
 #toolbar>div {
     white-space: nowrap;
 }
 
-#toolbar>div>button{
+#toolbar>div>button {
     border: none;
     width: 50px;
     font-size: 30px;
     padding: auto;
     color: var(--hl);
 }
-

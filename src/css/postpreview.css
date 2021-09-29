@@ -1,6 +1,6 @@
 #postpreview {
     display: none;
-    margin: 0 30px 30px 30px;
+    margin: 30px 30px 30px 30px;
     background-color: var(--bg2);
     padding: 30px;
     border-radius: var(--br) 0 0 var(--br);;
