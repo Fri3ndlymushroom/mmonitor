@@ -318,7 +318,7 @@ function filterOutTables(data) {
 
     let i = 0
     data.refactored.html = data.refactored.html.replace(/\[table.*?\]/gm, () => {
-        let tableHtml = "<table>"
+        let tableHtml = "<div id='table__wrapper'><table>"
 
         tables[i].structure.forEach(function (row) {
             tableHtml += "<tr>"
@@ -332,7 +332,7 @@ function filterOutTables(data) {
 
 
 
-        tableHtml += "</table>"
+        tableHtml += "</table></div>"
         i++
         return tableHtml
     })
