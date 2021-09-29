@@ -18,29 +18,35 @@ export default function Posts({ processedPostsData, openPost }) {
         }
     }
 
-
+    console.log(processedPostsData.length)
 
     let y = -1
-    return (
-        <>
-        {
-            splitPosts.map(column => {
-                y++
-                return (
-                    <div key={"postrow" + y} className="postrow">
-                        {
-                            splitPosts[y].map(dataPoint => {
-                                return <Post key={dataPoint.id} data={dataPoint} openPost={openPost} />
-                            })
-                        }
-                    </div>
 
-                )
-            })
-            
-        }
-        </>
-    )
+    if (processedPostsData.length > 0)
+        return (
+            <>
+                {
+                    splitPosts.map(column => {
+                        y++
+                        return (
+                            <div key={"postrow" + y} className="postrow">
+                                {
+                                    splitPosts[y].map(dataPoint => {
+                                        return <Post key={dataPoint.id} data={dataPoint} openPost={openPost} />
+                                    })
+                                }
+                            </div>
+
+                        )
+                    })
+
+                }
+            </>
+        )
+    else
+        return (
+            <div id="nopostfound">Emptyness...</div>
+        )
 
 }
 
