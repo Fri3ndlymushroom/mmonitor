@@ -1,5 +1,5 @@
 #toolbar {
-    margin: 0px 40px  0px 30px;
+    margin: 0px 40px  10px 30px;
     padding: 0px 10px;
     border-radius: 0 0 var(--br) var(--br);
     display: flex;
@@ -14,7 +14,7 @@
 @media screen and (max-width: 1200px) {
 
     #toolbar {
-        margin: 0px 20px  0px 10px;
+        margin: 0px 20px  10px 10px;
     }
 }
 
