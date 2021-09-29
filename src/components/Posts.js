@@ -18,7 +18,6 @@ export default function Posts({ processedPostsData, openPost }) {
         }
     }
 
-    console.log(processedPostsData.length)
 
     let y = -1
 

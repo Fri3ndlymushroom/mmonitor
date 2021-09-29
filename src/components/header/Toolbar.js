@@ -39,7 +39,7 @@ export default function Toolbar({ setOptionsOpen, setPopup }) {
                         <span className="bubble"></span>
                     </span>
                 </a>
-                <span style={{display: "none", "marginLeft": "10px", color:"grey", fontWeight: "bold"}}>Alpha</span>
+                <span style={{ display: "none", "marginLeft": "10px", color: "grey", fontWeight: "bold" }}>Alpha</span>
             </div>
 
 
@@ -48,9 +48,17 @@ export default function Toolbar({ setOptionsOpen, setPopup }) {
                     setPopup({
                         active: "active",
                         text:
-                            <>
-                                <h3>MMonitor is a tool that automatically searches r/mm and displays the posts more clearly.</h3>
-                            </>
+                            <div id="info">
+                                <div>
+                                    <h3>Welcome to MMonitor. </h3>
+                                    <span>MMonitor is a self updating view of r/mm and makes browsing and finding your favourite keyboard parts more convenient</span>
+                                </div>
+                                <span id="links">
+                                    <a href="https://github.com/Fri3ndlymushroom/mmonitor">GitHub</a>
+                                    <a href="https://www.patreon.com/FriendlyMushroom">Patreon</a>
+                                    <a href="https://ko-fi.com/friendlymushroom">KoFi</a>
+                                </span>
+                            </div>
                     })
                 }}>&#8505;</button>
                 <button onClick={() => setOptionsOpen(true)}>&#9881;</button>

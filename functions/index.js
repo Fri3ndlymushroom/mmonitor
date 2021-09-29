@@ -12,9 +12,7 @@ exports.getPosts = functions.pubsub.schedule("every 15 minutes from 00:00 to 23:
     //await getUserCredibility()
 });
 exports.getPostsCallable = functions.https.onCall(async (data, context) => {
-    console.log(1)
     await getPosts()
-    console.log(7)
     //await getUserCredibility()
 });
 
@@ -23,7 +21,6 @@ exports.getPostsCallable = functions.https.onCall(async (data, context) => {
 
 async function getPosts() {
 
-    console.log(2)
     let pushshiftData = '';
     let url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=mechmarket&sort=desc&sort_type=created_utc&frequency=second&before=1s&size=500'
 
@@ -37,10 +34,10 @@ async function getPosts() {
     
             // The whole response has been received. Print out the result.
             resp.on('end', async() => {
-                console.log(3)
+
                 pushshiftData = JSON.parse(pushshiftData)
                 await updatePostDatabase(pushshiftData)
-                console.log(4)
+
                 resolve("failed")
             })
     
@@ -51,11 +48,9 @@ async function getPosts() {
     })
 
     await p.then((message)=>{
-        console.log(5)
+
     })  
 
-
-    console.log(6)
 }
 
 async function updatePostDatabase(data) {

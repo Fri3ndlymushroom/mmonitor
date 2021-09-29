@@ -126,6 +126,6 @@ a::before {
     max-height: calc(100vh);
     height: calc(100vh);
     display: grid;
-    grid-template-rows: minmax(0, 70px) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 75px) minmax(0, 1fr);
     overflow-x: hidden;
 }

@@ -36,3 +36,20 @@
 #popup__overlay.active {
     display: inline;
 }
+
+#info{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#links{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#links>a{
+    font-size: 15px;
+}
