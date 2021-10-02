@@ -24,32 +24,32 @@ async function getPosts() {
     let pushshiftData = '';
     let url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=mechmarket&sort=desc&sort_type=created_utc&frequency=second&before=1s&size=500'
 
-    let p = new Promise((resolve, reject)=>{
+    let p = new Promise((resolve, reject) => {
         https.get(url, async (resp) => {
 
             // A chunk of data has been received.
             resp.on('data', (chunk) => {
                 pushshiftData += chunk;
             });
-    
+
             // The whole response has been received. Print out the result.
-            resp.on('end', async() => {
+            resp.on('end', async () => {
 
                 pushshiftData = JSON.parse(pushshiftData)
                 await updatePostDatabase(pushshiftData)
 
                 resolve("failed")
             })
-    
+
         }).on("error", (err) => {
             reject("failed")
             console.log("Error: " + err.message);
         });
     })
 
-    await p.then((message)=>{
+    await p.then((message) => {
 
-    })  
+    })
 
 }
 
@@ -57,12 +57,11 @@ async function updatePostDatabase(data) {
     data = data.data
 
     // get ids that are present in the databse
-    let presentIds = []
-    await db.collection("posts").get().then(querySnapshot => {
-        querySnapshot.forEach(function (post) {
-            presentIds.push(post.id)
-        })
-    })
+    const documentReferences = await 
+    db.collection('posts').listDocuments()
+
+    const presentIds = documentReferences.map(it => it.id)
+
 
 
     // filter out doublicate ids
@@ -200,7 +199,7 @@ async function getUserCredibility() {
 
 
 
-    for(let id of postids){
+    for (let id of postids) {
 
 
         function timeout(ms) {
@@ -209,8 +208,8 @@ async function getUserCredibility() {
 
         await timeout(600);
 
-        let commentids= ""
-        https.get("https://api.pushshift.io/reddit/submission/comment_ids/"+id, async (resp) => {
+        let commentids = ""
+        https.get("https://api.pushshift.io/reddit/submission/comment_ids/" + id, async (resp) => {
             resp.on('data', (chunk) => {
                 commentids += chunk;
             });
@@ -225,7 +224,7 @@ async function getUserCredibility() {
     }
 }
 
-function getComments(ids){
+function getComments(ids) {
     console.log(ids)
 }
 

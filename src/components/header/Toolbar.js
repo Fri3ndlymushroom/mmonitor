@@ -56,14 +56,16 @@ export default function Toolbar({ setOptionsOpen, setPopup }) {
                                     <p>I hope you enjoy MMonitor</p>
                                 </div>
                                 <span id="links">
-                                    <a href="https://github.com/Fri3ndlymushroom/mmonitor"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png"></img>Github</a>
-                                    <a href="https://www.patreon.com/FriendlyMushroom"><img src="https://upload.wikimedia.org/wikipedia/commons/9/94/Patreon_logo.svg"></img>Patreon</a>
-                                    <a href="https://ko-fi.com/friendlymushroom"><img src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5ca5bf1dff3c03fbf7cc9b3c_Kofi_logo_RGB_rounded.png"></img>Ko-Fi</a>
+                                    <a href="https://github.com/Fri3ndlymushroom/mmonitor"><img alt="github" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"></img>Github</a>
+                                    <a href="https://www.patreon.com/FriendlyMushroom"><img alt="patreon" src="https://upload.wikimedia.org/wikipedia/commons/9/94/Patreon_logo.svg"></img>Patreon</a>
+                                    <a href="https://ko-fi.com/friendlymushroom"><img alt="ko-fi" src="https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/5ca5bf1dff3c03fbf7cc9b3c_Kofi_logo_RGB_rounded.png"></img>Ko-Fi</a>
                                 </span>
                             </div>
                     })
-                }}>&#8505;</button>
-                <button onClick={() => setOptionsOpen(true)}>&#9881;</button>
+                }}>
+                    <img alt="info" src="info.png"></img>
+                </button>
+                <button  onClick={() => setOptionsOpen(true)}><img alt="settings" src="settings.png"></img></button>
             </div>
         </section>
     )

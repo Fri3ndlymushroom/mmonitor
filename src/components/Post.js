@@ -8,7 +8,7 @@ export default function Post({ data, openPost }) {
     }
 
 
-    
+
 
     const [imageIndex, setImageIndex] = useState(0)
     const [hovering, setHovering] = useState(false)
@@ -25,15 +25,13 @@ export default function Post({ data, openPost }) {
         return () => clearInterval(loop)
     })
 
-    let style = {}
-    if (!data.render) style = {display: "none"}
 
     return (
-        <button style={style} onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} onClick={() => openPost(data.index)} className="post">
+        <button onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} onClick={() => openPost(data.index)} className="post">
             {
                 getImage(data.images, imageIndex)
             }
-           
+
             <span>
                 {
                     getPost(data, flairClass)
@@ -43,10 +41,10 @@ export default function Post({ data, openPost }) {
     )
 }
 
-function getImage(images, index){
+function getImage(images, index) {
     if (images.length < 1) {
         return ""
-    }else{
+    } else {
         return <img alt="product_preview_image" src={images[index]}></img>
     }
 }
@@ -61,17 +59,19 @@ function getPost(data, flairClass) {
     if (data.classification.no_has_wants) {
         return (
             <>
-                <h5>u/{data.author} at {date}</h5>
-                <h3>{data.title}</h3>
+                <h3 className="post__title">{data.title}</h3>
+                <h5 className="post__info">by <span className="post__author">u/{data.author}</span> posted on {date}</h5>
                 <span className={"flair flair--" + flairClass}>{data.link_flair_text}</span>
             </>
         )
     } else {
         return (
             <>
-                <h5>u/{data.author} at {date}</h5>
-                <h3>Has: {data.classification.has}</h3>
-                <h3>Wants: {data.classification.wants}</h3>
+                <h3 className="post__title"><span className="post__prefix">Has:</span> {data.classification.has}</h3>
+                <h3 className="post__title"><span className="post__prefix">Wants:</span> {data.classification.wants}</h3>
+                <h5 className="post__info">by <span className="post__author">u/{data.author}</span> posted on {date}</h5>
+
+
                 <span className={"flair flair--" + flairClass}>{data.link_flair_text}</span>
             </>
         )

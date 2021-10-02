@@ -68,11 +68,11 @@
     padding: 10px 20px;
     margin: 0;
     border: none;
-    color: var(--text-sec);
-    background-color: var(--hl);
+    color: var(--text-prim);
+    background-color: var(--bg3);
     transition: 0.5s;
 }
 
 .options__button:hover {
-    background-color: var(--hlb);
+    background-color: var(--bg3);
 }

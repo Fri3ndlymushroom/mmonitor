@@ -18,7 +18,10 @@ export default function Options({ processedSettings, changeSettings, setOptionsO
         setOptionsOpen(false)
     }
 
-
+    let deployStyle = {display: "none"}
+    if (window.location.host === "localhost:3000") {
+        deployStyle = {display: "inline"}
+    }
     return (
         <div id="options" className={optionsClass}>
             <div id="options__header">
@@ -26,7 +29,7 @@ export default function Options({ processedSettings, changeSettings, setOptionsO
                 <button className="button--close" onClick={() => closeOptions()}>&#10006;</button>
             </div>
             <div id="options__buttons">
-                <button style={{display: "none"}} className="options__button" onClick={()=>getPostsCallable()}>get posts</button>
+                <button style={deployStyle} className="options__button" onClick={()=>getPostsCallable()}>get posts</button>
                 {
                     processedSettings.map(setting => {
                         return <Dropdown changeSettings={changeSettings} key={setting.ls} setting={setting} />

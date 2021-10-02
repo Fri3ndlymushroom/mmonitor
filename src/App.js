@@ -20,36 +20,49 @@ import "./css/heading.css"
 import "./css/tooltip.css"
 import "./css/table.css"
 // js
-import getSettings, {getOptionsArray} from "./js/settings"
+import getSettings, { getOptionsArray } from "./js/settings"
 import processPostsData from "./js/process_posts"
 
-let setData = false
+
 
 function App() {
 
     // posts
     const [postsData, setPostsData] = useState([])
+    const [renderLimit, setRenderLimit] = useState(30)
     useEffect(() => {
-        if (!setData) {
-            db.collection("posts")
-                .orderBy("created_utc", "desc").get().then((querySnapshot) => {
-                    let dbData = []
-                    querySnapshot.forEach(function (doc) {
-                        dbData.push(doc.data())
-                    })
-                    setPostsData(dbData)
+        getPosts()
+    }, [renderLimit])
+
+
+    function getPosts() {
+        db.collection("posts")
+            .orderBy("created_utc", "desc").limit(renderLimit).get().then((querySnapshot) => {
+                let dbData = []
+                querySnapshot.forEach(function (doc) {
+                    dbData.push(doc.data())
                 })
-            setData = true
-        }
-    })
+                setPostsData(dbData)
+            })
+    }
+
+    useEffect(() => {
+        document.getElementById("posts").addEventListener('scroll', function (event) {
+            var element = event.target;
+            if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+                console.log('scrolled');
+                setRenderLimit(renderLimit+30)
+            }
+        });
+    }, [])
 
     // settings
     const [settings, setSettings] = useState(getSettings())
     let processedSettings = getOptionsArray(settings)
-    function changeSettings(ls, option){
+    function changeSettings(ls, option) {
         let newSettings = [...settings]
-        newSettings.forEach(function(element){
-            if(element.ls === ls){
+        newSettings.forEach(function (element) {
+            if (element.ls === ls) {
                 element.options = JSON.parse(localStorage.getItem(ls))
             }
         })
@@ -76,41 +89,41 @@ function App() {
     let sidebarClass = ""
     let optionsClass = ""
     let loginClass = ""
-    if(currentOpenPost.refactored){
-        if(currentOpenPost.refactored.html !== '<p></p>')
-        sidebarClass = "sidebar--active"
+    if (currentOpenPost.refactored) {
+        if (currentOpenPost.refactored.html !== '<p></p>')
+            sidebarClass = "sidebar--active"
     }
-    if(optionsOpen){
+    if (optionsOpen) {
         sidebarClass = "sidebar--active"
         optionsClass = "options--open"
     }
-    if(loginOpen){
+    if (loginOpen) {
         sidebarClass = "sidebar--active"
         loginClass = "login--open"
     }
 
     const [notification, setNotification] = useState("")
 
-    const [popup, setPopup] = useState({active: "", text: "Hello world"})
+    const [popup, setPopup] = useState({ active: "", text: "Hello world" })
 
     return (
         <>
             <Scripts />
             <div id="content">
-                <Toolbar setOptionsOpen={setOptionsOpen} setPopup={setPopup}/>
+                <Toolbar setOptionsOpen={setOptionsOpen} setPopup={setPopup} />
                 <section id={"body"} className={sidebarClass}>
                     <section id="posts">
                         <Posts processedPostsData={processedPostsData} openPost={openPost} />
                     </section>
                     <Postpreview setNotification={setNotification} setCurrentOpenPost={setCurrentOpenPost} currentOpenPost={currentOpenPost} />
                     <Options setLoginOpen={setLoginOpen} optionsClass={optionsClass} setOptionsOpen={setOptionsOpen} processedSettings={processedSettings} changeSettings={changeSettings} />
-                    <Login loginClass={loginClass} setLoginOpen={setLoginOpen}/>
-                    <div onClick={()=>{setCurrentOpenPost({refactored:{html:'<p></p>'}}); setOptionsOpen(false)}} id="overlay"></div>
+                    <Login loginClass={loginClass} setLoginOpen={setLoginOpen} />
+                    <div onClick={() => { setCurrentOpenPost({ refactored: { html: '<p></p>' } }); setOptionsOpen(false) }} id="overlay"></div>
                 </section>
                 <section>
                 </section>
-                <Popup setPopup={setPopup} popup={popup}/>
-                <Notification notification={notification}/>
+                <Popup setPopup={setPopup} popup={popup} />
+                <Notification notification={notification} />
             </div>
         </>
     );
