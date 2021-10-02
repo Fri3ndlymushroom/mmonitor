@@ -45,7 +45,7 @@ function App() {
 
     // posts
     const [postsData, setPostsData] = useState([])
-    const [renderLimit, setRenderLimit] = useState(30)
+    const [renderLimit, setRenderLimit] = useState(60)
     useEffect(() => {
         getPosts()
     }, [renderLimit, settings])
@@ -55,11 +55,14 @@ function App() {
 
         let flairs = []
 
+
         for (let flair in settings[0].options) {
             if (settings[0].options[flair] === true) {
                 flairs.push(flair)
             }
         }
+
+
         if (flairs.length > 0) {
             db.collection("posts").where("link_flair_text", "in", flairs)
                 .orderBy("created_utc", "desc").limit(renderLimit).get().then((querySnapshot) => {

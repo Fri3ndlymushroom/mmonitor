@@ -4,6 +4,10 @@ const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
 
+db.settings({
+    ignoreUndefinedProperties: true,
+})
+
 
 const puppeteer = require('puppeteer')
 
@@ -58,13 +62,12 @@ async function updatePostDatabase(data) {
 
     // get ids that are present in the databse
     let presentIds = []
-    await db.collection("postIds").doc("postIds").get().then(doc=>{
-        if(doc.exists){
+    await db.collection("postIds").doc("postIds").get().then(doc => {
+        if (doc.exists) {
             presentIds = doc.data().ids
         }
     })
 
-    console.log(presentIds)
 
 
 
@@ -84,12 +87,15 @@ async function updatePostDatabase(data) {
     for (let post of data) {
         if (!post.doublicate) {
 
-            const imagePost = await getImgurLink(browser, post).catch(err => console.log("🛑" + err))
+            let imagePost = await getImgurLink(browser, post).catch(err => console.log("🛑" + err))
             console.log("found: " + i)
 
             imagePost.reported = { users: [], broken: false }
             imagePost.credibility = { found: false, text: "", data: { joined: "", link_karma: 0, comment_karma: 0, trades: 0 } }
             presentIds.push(post.id)
+
+            imagePost = classifyData(imagePost)
+
             await db.collection("posts").doc(post.id).set(
                 imagePost
             )
@@ -102,6 +108,71 @@ async function updatePostDatabase(data) {
     })
 
     console.log("finished")
+}
+
+function classifyData(data) {
+
+
+    data.classification = {
+        
+        location: "none",
+        location_prefix: "none",
+        /*
+        has: undefined,
+        wants: undefined,
+        has_title_products: undefined,
+        wants_title_products: undefined,
+        no_has_wants: undefined,*/
+        flair: data.link_flair_text,
+        broken: false
+    }
+
+
+    let title = data.title
+    title = title.replace(/&amp;/g, "&")
+    title = title.replace(/&.*;/g, "")
+    data.title = title
+
+    let noHasWants = false
+    let specialFlairs = ["Artisan", "Service", "Vendor", "Bulk", "Interest Check", "Group Buy"]
+    specialFlairs.forEach(function (flair) {
+        if (data.classification.flair === flair) noHasWants = true
+    })
+
+    // todo: add exceptoion for ic gb artisain etc...
+    let has = title.match(/(?<=\[H\])(.*)(?=\[W\])/g)
+    let location = title.match(/(?<=\[)(.*?)(?=\])/g)
+    let wants = title.match(/(?<=\[W])(.*)/g)
+
+    if (has === null || location === null || wants === null) {
+        data.classification.broken = true
+    } else if (data.selftext === "[removed]") {
+        data.classification.broken = true
+    } else if (location.length === 3 || has.length === 1 || wants.lengt === 1) {
+        data.classification.location = location[0]
+        data.classification.location_prefix = location[0][0]+location[0][1]
+        data.classification.has = has[0]
+        data.classification.wants = wants[0]
+        data.has_title_products = has[0].split(",")
+        data.wants_title_products = wants[0].split(",")
+    } else {
+        data.classification.broken = true
+    }
+
+    if (data.selftext.match(/\[removed\]/gm) !== null) {
+        data.classification.borken = true
+        return data
+    }
+
+    if (noHasWants) {
+        data.title = data.title.replace(/^\[(.*?)\]/g, "")
+        data.classification.no_has_wants = true
+        data.classification.broken = false
+        return data
+    }
+
+
+    return data
 }
 
 

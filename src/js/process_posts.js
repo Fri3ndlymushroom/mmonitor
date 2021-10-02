@@ -25,8 +25,6 @@ export default function processPostsData(postsData, settings) {
 
 
 function processData(data, settings) {
-    // get infos
-    data = classifyData(data)
     // refactor text
     data = refactorText(data)
     // apply settings
@@ -63,8 +61,10 @@ function filterPosts(data, settings) {
 
     //location
     let location = data.classification.location
+
+
     let short = ""
-    if (location) {
+    if (location !== "none") {
         short = location[0] + location[1]
         if (!settings[1].options[short] && !settings[1].options.All) {
             data.show = false
@@ -346,65 +346,5 @@ function filterOutTables(data) {
 }
 
 
-function classifyData(data) {
 
-    data.classification = {
-        location: undefined,
-        has: undefined,
-        wants: undefined,
-        has_title_products: undefined,
-        wants_title_products: undefined,
-        no_has_wants: undefined,
-        flair: data.link_flair_text,
-        broken: false
-    }
-
-    let title = data.title
-    title = title.replace(/&amp;/g, "&")
-    title = title.replace(/&.*;/g, "")
-    data.title = title
-
-    let noHasWants = false
-    let specialFlairs = ["Artisan", "Service", "Vendor", "Bulk", "Interest Check", "Group Buy"]
-    specialFlairs.forEach(function (flair) {
-        if (data.classification.flair === flair) noHasWants = true
-    })
-
-    // todo: add exceptoion for ic gb artisain etc...
-    let has = title.match(/(?<=\[H\])(.*)(?=\[W\])/g)
-    let location = title.match(/(?<=\[)(.*?)(?=\])/g)
-    let wants = title.match(/(?<=\[W])(.*)/g)
-
-    if (has === null || location === null || wants === null) {
-        data.classification.broken = true
-    } else if (data.selftext === "[removed]") {
-        data.classification.broken = true
-    } else if (location.length === 3 || has.length === 1 || wants.lengt === 1) {
-        data.classification.location = location[0]
-        data.classification.has = has[0]
-        data.classification.wants = wants[0]
-        data.has_title_products = has[0].split(",")
-        data.wants_title_products = wants[0].split(",")
-    } else {
-        data.classification.broken = true
-    }
-
-    if (data.selftext.match(/\[removed\]/gm) !== null) {
-        data.classification.borken = true
-        return data
-    }
-
-    if (noHasWants) {
-        data.title = data.title.replace(/^\[(.*?)\]/g, "")
-        data.classification.no_has_wants = true
-        data.classification.broken = false
-        return data
-    }
-
-
-
-
-
-    return data
-}
 

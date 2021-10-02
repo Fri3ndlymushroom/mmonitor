@@ -39,7 +39,6 @@ export default function getSettings() {
                 CA: true,
                 EU: true,
                 JP: true,
-                KR: true,
                 NZ: true,
                 SG: true,
                 UK: true,
