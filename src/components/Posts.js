@@ -39,6 +39,11 @@ export default function Posts({ processedPostsData, openPost }) {
                     })
 
                 }
+                <div id="loading__bar">
+                    <span>
+                        Scroll to bottom to load more posts
+                    </span>
+                </div>
             </>
         )
     else

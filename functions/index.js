@@ -94,8 +94,6 @@ async function updatePostDatabase(data) {
     for (let post of data) {
         if (!post.doublicate) {
 
-            bar1.update(i);
-
             let imagePost = await getImgurLink(browser, post).catch(err => console.log("🛑" + err))
             console.log("got: "+(i+1))
 

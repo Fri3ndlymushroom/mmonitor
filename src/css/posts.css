@@ -65,6 +65,17 @@
     gap: 30px
 }
 
+#loading__bar{
+    grid-column: 1 / 5;
+    height: 100px;
+    display: grid;
+    align-items: center
+}
+
+#loading__bar>span{
+margin: auto;
+}
+
 .post {
     background-color: var(--bg2);
     border-radius: var(--br);
