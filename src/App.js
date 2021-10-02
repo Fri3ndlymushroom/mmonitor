@@ -27,41 +27,6 @@ import processPostsData from "./js/process_posts"
 
 function App() {
 
-    // posts
-    const [postsData, setPostsData] = useState([])
-    const [renderLimit, setRenderLimit] = useState(30)
-    useEffect(() => {
-        getPosts()
-    }, [renderLimit])
-
-
-    function getPosts() {
-        db.collection("posts")
-            .orderBy("created_utc", "desc").limit(renderLimit).get().then((querySnapshot) => {
-                let dbData = []
-                querySnapshot.forEach(function (doc) {
-                    dbData.push(doc.data())
-                })
-                setPostsData(dbData)
-            })
-    }
-
-    useEffect(() => {
-        let shouldChange = true
-        document.getElementById("posts").addEventListener('scroll', function (event) {
-            var element = event.target;
-            if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-                if(shouldChange){
-                    shouldChange = true
-                    setTimeout(function() {
-                        setRenderLimit(renderLimit+30)
-                    }, 1000)
-                }
-                shouldChange = false
-            }
-        });
-    })
-
     // settings
     const [settings, setSettings] = useState(getSettings())
     let processedSettings = getOptionsArray(settings)
@@ -77,8 +42,57 @@ function App() {
 
     const [optionsOpen, setOptionsOpen] = useState(false)
 
+
+    // posts
+    const [postsData, setPostsData] = useState([])
+    const [renderLimit, setRenderLimit] = useState(30)
+    useEffect(() => {
+        getPosts()
+    }, [renderLimit, settings])
+
+
+    function getPosts() {
+
+        let flairs = []
+
+        for (let flair in settings[0].options) {
+            if (settings[0].options[flair] === true) {
+                flairs.push(flair)
+            }
+        }
+        if (flairs.length > 0) {
+            db.collection("posts").where("link_flair_text", "in", flairs)
+                .orderBy("created_utc", "desc").limit(renderLimit).get().then((querySnapshot) => {
+                    let dbData = []
+                    querySnapshot.forEach(function (doc) {
+                        dbData.push(doc.data())
+                    })
+                    setPostsData(dbData)
+                })
+        }
+    }
+
+    useEffect(() => {
+        let shouldChange = true
+        document.getElementById("posts").addEventListener('scroll', function (event) {
+
+            var element = event.target;
+            if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+                if (shouldChange) {
+                    shouldChange = true
+                    setTimeout(function () {
+                        setRenderLimit(renderLimit + 30)
+                    }, 1000)
+                }
+                shouldChange = false
+            }
+        });
+    })
+
+
     // refactor posts
     let processedPostsData = processPostsData(postsData, settings)
+
 
     // current post
     const [currentOpenPost, setCurrentOpenPost] = useState({})

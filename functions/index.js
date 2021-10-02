@@ -57,10 +57,14 @@ async function updatePostDatabase(data) {
     data = data.data
 
     // get ids that are present in the databse
-    const documentReferences = await 
-    db.collection('posts').listDocuments()
+    let presentIds = []
+    await db.collection("postIds").doc("postIds").get().then(doc=>{
+        if(doc.exists){
+            presentIds = doc.data().ids
+        }
+    })
 
-    const presentIds = documentReferences.map(it => it.id)
+    console.log(presentIds)
 
 
 
@@ -85,6 +89,7 @@ async function updatePostDatabase(data) {
 
             imagePost.reported = { users: [], broken: false }
             imagePost.credibility = { found: false, text: "", data: { joined: "", link_karma: 0, comment_karma: 0, trades: 0 } }
+            presentIds.push(post.id)
             await db.collection("posts").doc(post.id).set(
                 imagePost
             )
@@ -92,6 +97,10 @@ async function updatePostDatabase(data) {
         }
     }
     await browser.close()
+    await db.collection("postIds").doc("postIds").set({
+        ids: presentIds
+    })
+
     console.log("finished")
 }
 
