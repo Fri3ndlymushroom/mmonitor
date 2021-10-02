@@ -47,14 +47,20 @@ function App() {
     }
 
     useEffect(() => {
+        let shouldChange = true
         document.getElementById("posts").addEventListener('scroll', function (event) {
             var element = event.target;
             if (element.scrollHeight - element.scrollTop === element.clientHeight) {
-                console.log('scrolled');
-                setRenderLimit(renderLimit+30)
+                if(shouldChange){
+                    shouldChange = true
+                    setTimeout(function() {
+                        setRenderLimit(renderLimit+30)
+                    }, 1000)
+                }
+                shouldChange = false
             }
         });
-    }, [])
+    })
 
     // settings
     const [settings, setSettings] = useState(getSettings())
