@@ -26,7 +26,7 @@ exports.getPostsCallable = functions.https.onCall(async (data, context) => {
 async function getPosts() {
 
     let pushshiftData = '';
-    let url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=mechmarket&sort=desc&sort_type=created_utc&frequency=second&before=1s&size=500'
+    let url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=mechmarket&sort=desc&sort_type=created_utc&frequency=second&before=1s&size=50'
 
     let p = new Promise((resolve, reject) => {
         https.get(url, async (resp) => {
@@ -95,6 +95,7 @@ async function updatePostDatabase(data) {
             presentIds.push(post.id)
 
             imagePost = classifyData(imagePost)
+            imagePost = refactorText(imagePost)
 
             await db.collection("posts").doc(post.id).set(
                 imagePost
@@ -108,6 +109,159 @@ async function updatePostDatabase(data) {
     })
 
     console.log("finished")
+}
+
+function refactorText(data) {
+
+    data.refactored = {
+        html: ""
+    }
+    data = filterOutLinks(data)
+
+    data = filterOutSpecialText(data)
+
+    let i = -1
+    data.refactored.html = data.refactored.html.replace(/^.*$/gm, function () {
+        let lines = data.refactored.html.match(/^.*$/gm)
+        i++
+        return ("<p>" + lines[i] + "</p>")
+    })
+
+    return data
+}
+
+
+
+function cutLast(value, amount){
+    console.log(typeof value)
+    if(typeof value === "object"){
+        value.forEach(function(element, i){
+            value[i] = element.slice(0, -1*amount)
+        })
+    }else{
+        value = value.slice(0, -1*amount)
+    }
+    return value
+}
+
+
+
+function filterOutSpecialText(data) {
+
+    // Bold Italic ***
+    let i = -1
+    data.refactored.html = data.refactored.html.replace(/(\*\*\*).*(\*\*\*)/gm, function () {
+        let found = data.refactored.html.match(/(?<=\*\*\*).*(?=\*\*\*)/gm)
+
+        
+
+        i++
+        return "<span class='bold italic'>" + found[i] + "</span>"
+    })
+
+    // Bold **
+    i = -1
+    data.refactored.html = data.refactored.html.replace(/(\*\*).*(\*\*)/gm, function () {
+        let found = data.refactored.html.match(/(?<=\*\*).*(?=\*\*)/gm)
+        i++
+        return "<span class='bold'>" + found[i] + "</span>"
+    })
+
+    // Italic *
+    i = -1
+    data.refactored.html = data.refactored.html.replace(/(\*).*(\*)/gm, function () {
+        let found = data.refactored.html.match(/(?<=\*).*(?=\*)/gm)
+        i++
+        return "<span class='italic'>" + found[i] + "</span>"
+    })
+
+    // dot *
+    i = -1
+    data.refactored.html = data.refactored.html.replace(/(\* )/g, function () {
+
+        i++
+        return "<span>•</span>"
+    })
+
+    // Heading 2 ##
+    i = -1
+    data.refactored.html = data.refactored.html.replace(/(## ).*?(?=<)/gm, function () {
+        let found = data.refactored.html.match(/(?<=## ).*?(?=<)/gm)
+
+        i++
+        return "<span class='post__h2 italic'>" + found[i] + "</span>"
+    })
+
+    // Heading 1 #
+    i = -1
+    data.refactored.html = data.refactored.html.replace(/(# ).*?(?=<)/gm, function () {
+        let found = data.refactored.html.match(/(?<=# ).*?(?=<)/gm)
+
+
+        i++
+        return "<span class='post__h1 italic'>" + found[i] + "</span>"
+    })
+
+    // ignore \
+    data.refactored.html = data.refactored.html.replace(/\\/g, "")
+
+    // ignore &***;
+    data.refactored.html = data.refactored.html.replace(/&.*;/g, "")
+
+    return data
+}
+
+function filterOutLinks(data) {
+
+
+
+    if (data.selftext) {
+        data.selftext = data.selftext.replace(/\\/gm, "")
+        let html = data.selftext
+
+
+
+        let links = html.match(/\[(.*?)\]( *)\((.*?)\)/g)
+
+
+
+
+
+        let sublinks = []
+        if (links != null) {
+
+            links.forEach(function (element) {
+                sublinks.push(
+                    {
+                        link_text: element.match(/(?<=\[).*?(?=\])/g)[0],
+                        url: element.match(/(?<=\().*(?=\))/g)[0]
+                    })
+            })
+            let i = -1
+            html = html.replace(/\[(.*?)\]( *?)\((.*?)\)/g, function () {
+                i++
+                let link = ("<a rel='noreferrer' target='_blank' href='" + sublinks[i].url + "'>" + sublinks[i].link_text + "</a>")
+                return link
+            })
+        }
+
+
+
+
+        let i = 0
+        html = html.replace(/( |^)https*:\/\/(.*?)(?= |$)/gm, () => {
+            let link = html.match(/( |^)https*:\/\/(.*?)(?= |$)/gm)
+            let newLink = "<a rel='noreferrer' target='_blank' href='" + link[i] + "'>" + link[i] + "</a>"
+            i++
+            return newLink
+        })
+
+
+
+        data.refactored.html = html
+    }
+
+    return data
 }
 
 function classifyData(data) {

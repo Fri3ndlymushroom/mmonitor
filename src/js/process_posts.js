@@ -26,7 +26,7 @@ export default function processPostsData(postsData, settings) {
 
 function processData(data, settings) {
     // refactor text
-    data = refactorText(data)
+    data = filterOutTables(data)
     // apply settings
     data = filterPosts(data, settings)
 
@@ -92,140 +92,7 @@ function filterPosts(data, settings) {
 }
 
 
-function refactorText(data) {
 
-    data.refactored = {
-        html: ""
-    }
-    data = filterOutLinks(data)
-    data = filterOutTables(data)
-    data = filterOutSpecialText(data)
-
-    let i = -1
-    data.refactored.html = data.refactored.html.replace(/^.*$/gm, function () {
-        let lines = data.refactored.html.match(/^.*$/gm)
-        i++
-        return ("<p>" + lines[i] + "</p>")
-    })
-
-    return data
-}
-
-
-function filterOutSpecialText(data) {
-
-    // Bold Italic ***
-    let i = -1
-    data.refactored.html = data.refactored.html.replace(/(\*\*\*).*(\*\*\*)/gm, function () {
-        let found = data.refactored.html.match(/(?<=\*\*\*).*(?=\*\*\*)/gm)
-        i++
-        return "<span class='bold italic'>" + found[i] + "</span>"
-    })
-
-    // Bold **
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(\*\*).*(\*\*)/gm, function () {
-        let found = data.refactored.html.match(/(?<=\*\*).*(?=\*\*)/gm)
-        i++
-        return "<span class='bold'>" + found[i] + "</span>"
-    })
-
-    // Italic *
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(\*).*(\*)/gm, function () {
-        let found = data.refactored.html.match(/(?<=\*).*(?=\*)/gm)
-        i++
-        return "<span class='italic'>" + found[i] + "</span>"
-    })
-
-    // dot *
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(\* )/g, function () {
-
-        i++
-        return "<span>•</span>"
-    })
-
-    // Heading 2 ##
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(## ).*?(?=<)/gm, function () {
-        let found = data.refactored.html.match(/(?<=## ).*?(?=<)/gm)
-
-        i++
-        return "<span class='post__h2 italic'>" + found[i] + "</span>"
-    })
-
-    // Heading 1 #
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(# ).*?(?=<)/gm, function () {
-        let found = data.refactored.html.match(/(?<=# ).*?(?=<)/gm)
-
-
-        i++
-        return "<span class='post__h1 italic'>" + found[i] + "</span>"
-    })
-
-    // ignore \
-    data.refactored.html = data.refactored.html.replace(/\\/g, "")
-
-    // ignore &***;
-    data.refactored.html = data.refactored.html.replace(/&.*;/g, "")
-
-    return data
-}
-
-function filterOutLinks(data) {
-
-
-
-    if (data.selftext) {
-        data.selftext = data.selftext.replace(/\\/gm, "")
-        let html = data.selftext
-
-
-
-        let links = html.match(/\[(.*?)\]( *)\((.*?)\)/g)
-
-
-
-
-
-        let sublinks = []
-        if (links != null) {
-
-            links.forEach(function (element) {
-                sublinks.push(
-                    {
-                        link_text: element.match(/(?<=\[).*?(?=\])/g)[0],
-                        url: element.match(/(?<=\().*(?=\))/g)[0]
-                    })
-            })
-            let i = -1
-            html = html.replace(/\[(.*?)\]( *?)\((.*?)\)/g, function () {
-                i++
-                let link = ("<a rel='noreferrer' target='_blank' href='" + sublinks[i].url + "'>" + sublinks[i].link_text + "</a>")
-                return link
-            })
-        }
-
-
-
-
-        let i = 0
-        html = html.replace(/( |^)https*:\/\/(.*?)(?= |$)/gm, () => {
-            let link = html.match(/( |^)https*:\/\/(.*?)(?= |$)/gm)
-            let newLink = "<a rel='noreferrer' target='_blank' href='" + link[i] + "'>" + link[i] + "</a>"
-            i++
-            return newLink
-        })
-
-
-
-        data.refactored.html = html
-    }
-
-    return data
-}
 
 function filterOutTables(data) {
 
