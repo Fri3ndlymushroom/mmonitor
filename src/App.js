@@ -45,7 +45,7 @@ function App() {
 
     // posts
     const [postsData, setPostsData] = useState([])
-    const [renderLimit, setRenderLimit] = useState(60)
+    const [renderLimit, setRenderLimit] = useState(30)
     useEffect(() => {
         getPosts()
     }, [renderLimit, settings])
@@ -78,9 +78,8 @@ function App() {
     useEffect(() => {
         let shouldChange = true
         document.getElementById("posts").addEventListener('scroll', function (event) {
-
             var element = event.target;
-            if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+            if (Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight)< 2) {
                 if (shouldChange) {
                     shouldChange = true
                     setTimeout(function () {
