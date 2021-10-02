@@ -1,9 +1,33 @@
 import React, { useState, useEffect } from 'react'
 import Post from "./Post"
+import $ from "jquery"
 
 
 export default function Posts({ processedPostsData, openPost }) {
 
+    const [renderAmount, setRenderAmount] = useState(30)
+
+    useEffect(() => {
+        document.getElementById("posts").addEventListener('scroll', function (event) {
+            var element = event.target;
+            if (element.scrollHeight - element.scrollTop === element.clientHeight) {
+                console.log('scrolled');
+                setRenderAmount(renderAmount+30)
+            }
+        });
+
+    }, [])
+
+
+    processedPostsData = getAllRendered(processedPostsData)
+
+    function getAllRendered(posts) {
+        posts.forEach(function (post, i) {
+            if (i < renderAmount) post.render = true;
+            else post.render = false
+        })
+        return posts
+    }
 
     const [splitPosts, setSplitPosts] = useState(getSplitPosts(processedPostsData))
 
@@ -17,6 +41,11 @@ export default function Posts({ processedPostsData, openPost }) {
             setSplitPosts(getSplitPosts(processedPostsData))
         }
     }
+
+
+
+
+
 
 
     let y = -1
@@ -48,6 +77,10 @@ export default function Posts({ processedPostsData, openPost }) {
         )
 
 }
+
+
+
+
 
 function getSplitPosts(processedPostsData) {
     let splitPosts = []

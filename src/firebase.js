@@ -29,4 +29,4 @@ if (window.location.host === "localhost:3000") {
 export default firebase
 
 // netstat -aon | findstr :8080
-// taskkill /PID 18688 /F
+// taskkill /PID 18688 /Fp

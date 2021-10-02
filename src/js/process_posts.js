@@ -210,11 +210,11 @@ function filterOutLinks(data) {
 
 
 
-        
+
         let i = 0
-        html = html.replace(/( |^)https*:\/\/(.*?)(?= |$)/gm, ()=>{
+        html = html.replace(/( |^)https*:\/\/(.*?)(?= |$)/gm, () => {
             let link = html.match(/( |^)https*:\/\/(.*?)(?= |$)/gm)
-            let newLink = "<a rel='noreferrer' target='_blank' href='"+link[i]+"'>"+link[i]+"</a>"
+            let newLink = "<a rel='noreferrer' target='_blank' href='" + link[i] + "'>" + link[i] + "</a>"
             i++
             return newLink
         })

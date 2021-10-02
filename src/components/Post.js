@@ -25,10 +25,11 @@ export default function Post({ data, openPost }) {
         return () => clearInterval(loop)
     })
 
-
+    let style = {}
+    if (!data.render) style = {display: "none"}
 
     return (
-        <button onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} onClick={() => openPost(data.index)} className="post">
+        <button style={style} onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)} onClick={() => openPost(data.index)} className="post">
             {
                 getImage(data.images, imageIndex)
             }

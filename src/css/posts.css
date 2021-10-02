@@ -100,7 +100,8 @@
     color: var(--text-sec);
     font-weight: bold;
     padding: 5px 10px;
-    border-radius: var(--br)
+    border-radius: var(--br);
+    font-size: 14px;
 }
 
 .flair--Selling {
@@ -164,4 +165,5 @@
 
 #nopostfound{
     margin: auto;
+    grid-column: 1 / 5;
 }
