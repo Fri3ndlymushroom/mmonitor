@@ -17,11 +17,10 @@ export default function processPostsData(postsData, settings) {
         element.index = y
     })
 
+
+
     return processedPostsData
 }
-
-
-
 
 
 function processData(data, settings) {
@@ -30,34 +29,15 @@ function processData(data, settings) {
     // apply settings
     data = filterPosts(data, settings)
 
+
+
     return data
 }
 
 function filterPosts(data, settings) {
     data.show = true
 
-    // flair
-    if (data.link_flair_text === "Selling" && !settings[0].options.Selling) {
-        data.show = false
-    } else if (data.link_flair_text === "Buying" && !settings[0].options.Buying) {
-        data.show = false
-    } else if (data.link_flair_text === "Trading" && !settings[0].options.trading) {
-        data.show = false
-    } else if (data.link_flair_text === "Artisan" && !settings[0].options.Artisan) {
-        data.show = false
-    } else if (data.link_flair_text === "Service" && !settings[0].options.Service) {
-        data.show = false
-    } else if (data.link_flair_text === "Vendor" && !settings[0].options.Vendor) {
-        data.show = false
-    } else if (data.link_flair_text === "Bulk" && !settings[0].options.Bulk) {
-        data.show = false
-    } else if (data.link_flair_text === "Interest Check" && !settings[0].options["Interest Check"]) {
-        data.show = false
-    } else if (data.link_flair_text === "Group Buy" && !settings[0].options["Group Buy"]) {
-        data.show = false
-    } else if (!data.link_flair_text) {
-        data.show = false
-    }
+
 
     //location
     let location = data.classification.location

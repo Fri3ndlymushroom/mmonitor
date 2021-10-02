@@ -38,22 +38,3 @@
 
 
 
-.post__prefix{
-    font-size: 12px;
-    color: var(--text-dim)
-}
-
-.post__info{
-    font-size: 12px;
-    color: var(--text-dim);
-    margin: 10px 0;
-}
-
-.post__author{
-    color: var(--text-main)
-}
-
-.post__title{
-    font-size: 20px;
-    margin: 10px 0;
-}

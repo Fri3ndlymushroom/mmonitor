@@ -17,13 +17,13 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
     return (
         <div id="postpreview">
             {
-                getPreview(activeImage,setActiveImage, setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex)
+                getPreview(activeImage, setActiveImage, setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex)
             }
         </div>
     )
 }
 
-function getPreview(activeImage, setActiveImage, setNotification,  currentOpenPost, closePreview, imageIndex, setImageIndex) {
+function getPreview(activeImage, setActiveImage, setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex) {
     const header =
         <div className="post__header">
             <h2><a rel="noreferrer" target="_blank" href={currentOpenPost.full_link}>Full Post</a></h2>
@@ -34,14 +34,17 @@ function getPreview(activeImage, setActiveImage, setNotification,  currentOpenPo
         </div>
 
 
+    let d = new Date(currentOpenPost.created_utc * 1000).toString().split(" ");
+    let t = d[4].split(":")
+    let date = d[2] + " " + d[1] + " " + t[0] + ":" + t[1]
+    if (currentOpenPost.classification) {
 
-    if (currentOpenPost.classification)
         if (currentOpenPost.classification.no_has_wants) {
             return (
                 <>
                     {header}
                     <h2>{currentOpenPost.title}</h2>
-                    {getImageSlider(activeImage, setActiveImage,currentOpenPost.images, imageIndex, setImageIndex)}
+                    {getImageSlider(activeImage, setActiveImage, currentOpenPost.images, imageIndex, setImageIndex)}
                     <div dangerouslySetInnerHTML={{ __html: currentOpenPost.refactored.html }} />
                 </>
             )
@@ -49,14 +52,15 @@ function getPreview(activeImage, setActiveImage, setNotification,  currentOpenPo
             return (
                 <>
                     {header}
-                    <h2>Has: {currentOpenPost.classification.has}</h2>
-                    <h2>Wants: {currentOpenPost.classification.wants}</h2>
-                    <h3>u/{currentOpenPost.author} from {currentOpenPost.classification.location}</h3>
-                    {getImageSlider(activeImage, setActiveImage,currentOpenPost.images, imageIndex, setImageIndex)}
+                    <h2><span className="postpreview__prefix">[Has]</span> {currentOpenPost.classification.has}</h2>
+                    <h2><span className="postpreview__prefix">[Wants]</span> {currentOpenPost.classification.wants}</h2>
+                    <h3 className="postpreview__info">u/<span className="postpreview__author">{currentOpenPost.author}</span> from {currentOpenPost.classification.location} posted this on {date}</h3>
+                    {getImageSlider(activeImage, setActiveImage, currentOpenPost.images, imageIndex, setImageIndex)}
                     <div dangerouslySetInnerHTML={{ __html: currentOpenPost.refactored.html }} />
                 </>
             )
         }
+    }
     else {
         return (<>
             {header}
@@ -65,13 +69,13 @@ function getPreview(activeImage, setActiveImage, setNotification,  currentOpenPo
     }
 }
 
-function getImageSlider(activeImage, setActiveImage,images, imageIndex, setImageIndex) {
+function getImageSlider(activeImage, setActiveImage, images, imageIndex, setImageIndex) {
     if (images.length > 0)
         return (
             <div className="imageslider">
                 <span>{imageIndex + 1}/{images.length}</span>
                 <img className={activeImage} alt="galery" src={images[imageIndex]}></img>
-                <div className={activeImage} onClick={()=>setActiveImage("")} id="imageslider__overlay"></div>
+                <div className={activeImage} onClick={() => setActiveImage("")} id="imageslider__overlay"></div>
                 <button className="imageslider__prev" onClick={() => setImageIndex(() => {
                     let newIndex = imageIndex - 1
                     if (newIndex < 0) newIndex = images.length - 1
@@ -82,7 +86,7 @@ function getImageSlider(activeImage, setActiveImage,images, imageIndex, setImage
                     if (newIndex > images.length - 1) newIndex = 0
                     return newIndex
                 })}>&rarr;</button>
-                <button onClick={()=>setActiveImage("active")} id="imageslider__zoom">&#10010;</button>
+                <button onClick={() => setActiveImage("active")} id="imageslider__zoom">&#10010;</button>
             </div>
         )
 }

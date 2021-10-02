@@ -67,8 +67,8 @@ function getPost(data, flairClass) {
     } else {
         return (
             <>
-                <h3 className="post__title"><span className="post__prefix">Has:</span> {data.classification.has}</h3>
-                <h3 className="post__title"><span className="post__prefix">Wants:</span> {data.classification.wants}</h3>
+                <h3 className="post__title"><span className="post__prefix">[H]</span> {data.classification.has}</h3>
+                <h3 className="post__title"><span className="post__prefix">[W]</span> {data.classification.wants}</h3>
                 <h5 className="post__info">by <span className="post__author">u/{data.author}</span> posted on {date}</h5>
 
 

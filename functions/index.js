@@ -3,6 +3,7 @@ const https = require('https');
 const admin = require("firebase-admin");
 admin.initializeApp();
 const db = admin.firestore();
+const cliProgress = require('cli-progress');
 
 db.settings({
     ignoreUndefinedProperties: true,
@@ -72,23 +73,31 @@ async function updatePostDatabase(data) {
 
 
     // filter out doublicate ids
+    let non_doublicate = 0
     data.forEach(function (post) {
         presentIds.forEach(function (id) {
             if (id === post.id) {
                 post.doublicate = true
+            }else{
+                non_doublicate++
             }
         })
     })
 
     // push all non doublicate posts to db
-    console.log("srtarted")
+    console.log("started")
+
+
+
     let i = 0
     const browser = await puppeteer.launch()
     for (let post of data) {
         if (!post.doublicate) {
 
+            bar1.update(i);
+
             let imagePost = await getImgurLink(browser, post).catch(err => console.log("🛑" + err))
-            console.log("found: " + i)
+            console.log("got: "+(i+1))
 
             imagePost.reported = { users: [], broken: false }
             imagePost.credibility = { found: false, text: "", data: { joined: "", link_karma: 0, comment_karma: 0, trades: 0 } }
@@ -108,7 +117,7 @@ async function updatePostDatabase(data) {
         ids: presentIds
     })
 
-    console.log("finished")
+    console.log("Finished")
 }
 
 function refactorText(data) {
@@ -128,20 +137,6 @@ function refactorText(data) {
     })
 
     return data
-}
-
-
-
-function cutLast(value, amount){
-    console.log(typeof value)
-    if(typeof value === "object"){
-        value.forEach(function(element, i){
-            value[i] = element.slice(0, -1*amount)
-        })
-    }else{
-        value = value.slice(0, -1*amount)
-    }
-    return value
 }
 
 
