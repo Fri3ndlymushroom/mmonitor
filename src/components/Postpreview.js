@@ -34,9 +34,13 @@ function getPreview(activeImage, setActiveImage, setNotification, currentOpenPos
         </div>
 
 
-    let d = new Date(currentOpenPost.created_utc * 1000).toString().split(" ");
-    let t = d[4].split(":")
-    let date = d[2] + " " + d[1] + " " + t[0] + ":" + t[1]
+    
+    let date = ""
+    if (currentOpenPost.created_utc) {
+        let d = new Date(currentOpenPost.created_utc * 1000).toString().split(" ");
+        let t = d[4].split(":")
+        date = d[2] + " " + d[1] + " " + t[0] + ":" + t[1]
+    }
     if (currentOpenPost.classification) {
 
         if (currentOpenPost.classification.no_has_wants) {
