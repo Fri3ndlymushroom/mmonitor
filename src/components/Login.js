@@ -10,12 +10,13 @@ export default function Login({ loginClass, setLoginOpen }) {
         setLoginOpen(false)
     }
 
+
     function getLoginView() {
         if (auth.currentUser) {
             return (
                 <div id="loggedin">
                     <h3>Welcome back {auth.currentUser.displayName}</h3>
-                    <p>Thank you for useing MMonitor</p>
+                    <p>Thank you for using MMonitor</p>
                     <button onClick={() => logout()}>Log Out</button>
                 </div>
             )
