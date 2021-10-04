@@ -1,4 +1,7 @@
 :root {
+    --br: 10px;
+    --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    --product__columns: 4;
     /* yellow */
     --bg1: #091420;
     --bg2: #1B263B;
@@ -15,6 +18,29 @@
     --fl7: #168aad;
     --fl8: #1a759f;
     --fl9: #1e6091;
+
+}
+
+body.theme--yellow{
+    /* yellow */
+    --bg1: #091420;
+    --bg2: #1B263B;
+    --bg3: #2f3d57;
+    --text-main: #E0E1DD;
+    --text-dim: #979696;
+    --text-sec: #1B263B;
+    --link: #4194dd;
+    --hl: #d2e97e;
+    --hlb: #d4e78f;
+    --fl1: #d9ed92;
+    --fl2: #b5e48c;
+    --fl3: #99d98c;
+    --fl7: #168aad;
+    --fl8: #1a759f;
+    --fl9: #1e6091;
+}
+
+body.theme--turquise{
     /* turquise */
     --bg1: #091420;
     --bg2: #1B263B;
@@ -34,6 +60,9 @@
     --fl7: #358F80;
     --fl8: #248277;
     --fl9: #14746F;
+}
+
+body.theme--reddit{
     /* reddit */
     --bg1: #030003;
     --bg2: #1A1A1B;
@@ -53,10 +82,8 @@
     --fl7: #358F80;
     --fl8: #248277;
     --fl9: #14746F;
-    --br: 10px;
-    --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    --product__columns: 4;
 }
+
 
 html, body {
     overflow-x: hidden;

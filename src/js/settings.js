@@ -64,6 +64,16 @@ export default function getSettings() {
                 "Giveaway": false
             }
         },
+        {
+            only_one: true,
+            id: "dropdown--theme",
+            ls: "Theme",
+            options: {
+                Yellow: true,
+                Turquise: false,
+                Reddit: false
+            }
+        },
     ]
 
 
@@ -71,12 +81,28 @@ export default function getSettings() {
         defaultSettings.forEach(function (type) {
             localStorage.setItem(type.ls, JSON.stringify(type.options))
         })
+
     } else {
         defaultSettings.forEach(function (element, i) {
             let lsdoc = JSON.parse(localStorage.getItem(element.ls))
             defaultSettings[i].options = lsdoc
         })
     }
+
+
+    let activeTheme = ""
+
+
+
+
+
+
+
+
+
+
+
+
 
     return defaultSettings
 }

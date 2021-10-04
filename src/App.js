@@ -22,25 +22,18 @@ import "./css/table.css"
 // js
 import getSettings, { getOptionsArray } from "./js/settings"
 import processPostsData from "./js/process_posts"
-const current_lsv = 1
+const current_lsv = 2
 
 
 
 function App() {
-    useEffect(()=>{
+    useEffect(() => {
         let lsv = localStorage.getItem("lsv")
-        if(lsv === null || JSON.parse(lsv) !== current_lsv){
+        if (lsv === null || JSON.parse(lsv) !== current_lsv) {
             localStorage.clear()
             localStorage.setItem("lsv", JSON.stringify(current_lsv))
         }
     })
-
-
-
-
-
-
-
 
     // settings
     const [settings, setSettings] = useState(getSettings())
@@ -93,12 +86,12 @@ function App() {
 
             // search
             let searchTerms = []
-            for(let term in settings[3].options){
-                if(settings[3].options[term]) searchTerms.push(term.toLowerCase())
+            for (let term in settings[3].options) {
+                if (settings[3].options[term]) searchTerms.push(term.toLowerCase())
             }
 
-            searchTerms.forEach(function(term){
-                posts = posts.where("classification.search."+term, "==", true)
+            searchTerms.forEach(function (term) {
+                posts = posts.where("classification.search." + term, "==", true)
             })
 
 
@@ -111,6 +104,10 @@ function App() {
             })
         }
     }
+
+
+
+
 
     useEffect(() => {
         let shouldChange = true
@@ -164,6 +161,12 @@ function App() {
     const [notification, setNotification] = useState("")
 
     const [popup, setPopup] = useState({ active: "", text: "Hello world" })
+
+    let themeClass = ""
+    for (let theme in settings[4].options) if (settings[4].options[theme]) themeClass = "theme--"+theme.toLowerCase()
+    console.log(themeClass)
+
+    document.body.className = themeClass
 
     return (
         <>
