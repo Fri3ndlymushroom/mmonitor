@@ -22,10 +22,25 @@ import "./css/table.css"
 // js
 import getSettings, { getOptionsArray } from "./js/settings"
 import processPostsData from "./js/process_posts"
+const current_lsv = 1
 
 
 
 function App() {
+    useEffect(()=>{
+        let lsv = localStorage.getItem("lsv")
+        if(lsv === null || JSON.parse(lsv) !== current_lsv){
+            localStorage.clear()
+            localStorage.setItem("lsv", JSON.stringify(current_lsv))
+        }
+    })
+
+
+
+
+
+
+
 
     // settings
     const [settings, setSettings] = useState(getSettings())
