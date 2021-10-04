@@ -90,7 +90,9 @@ async function updatePostDatabase(data) {
 
 
     let i = 0
-    const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({
+        headless: true
+    })
     for (let post of data) {
         if (!post.doublicate) {
 
@@ -337,7 +339,8 @@ async function getImgurLink(browser, post) {
 
 
         const page = await browser.newPage()
-        await page.goto(url)
+        console.log(url)
+        await page.goto(url, {waitUntil: 'networkidle2', timeout: 0})
 
 
 
@@ -454,7 +457,6 @@ async function getUserCredibility() {
 function getComments(ids) {
     console.log(ids)
 }
-
 
 
 
