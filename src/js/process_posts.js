@@ -37,36 +37,14 @@ function processData(data, settings) {
 function filterPosts(data, settings) {
     data.show = true
 
-
-
-    //location
-    let location = data.classification.location
-
-
-    let short = ""
-    if (location !== "none") {
-        short = location[0] + location[1]
-        if (!settings[1].options[short] && !settings[1].options.All) {
-            data.show = false
-        }
-    }
-
-    //appearance
-
-    //broken
-    if (data.reported.broken) data.classification.broken = true
-
-    if (settings[2].options.show === false && data.classification.broken) {
-        data.show = false
-    }
-
+    /*
     // search terms
     for (let term in settings[3].options) {
         if (settings[3].options[term]) {
             let match = data.title.match(RegExp(term, "gi"))
             if (match === null) data.show = false
         }
-    }
+    }*/
 
     return data
 }

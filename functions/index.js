@@ -263,7 +263,9 @@ function classifyData(data) {
 
 
     data.classification = {
-        
+        search:{
+            giveaway: false
+        },
         location: "none",
         location_prefix: "none",
         /*
@@ -275,8 +277,23 @@ function classifyData(data) {
         flair: data.link_flair_text,
         broken: false
     }
+    // search
+
+    let text = data.title + data.selftext
+    
+    if(/giveaway/gim.test(text)){
+        data.classification.search.giveaway = true
+    }
 
 
+
+
+
+
+
+
+
+    // title analysis
     let title = data.title
     title = title.replace(/&amp;/g, "&")
     title = title.replace(/&.*;/g, "")
@@ -339,7 +356,6 @@ async function getImgurLink(browser, post) {
 
 
         const page = await browser.newPage()
-        console.log(url)
         await page.goto(url, {waitUntil: 'networkidle2', timeout: 0})
 
 
