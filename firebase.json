@@ -15,16 +15,13 @@
     },
     "auth": {
       "port": 9099
-    },
-    "hosting": {
-      "port": 5000
     }
   },
   "functions": {
     "source": "functions"
   },
   "hosting": {
-    "public": "public",
+    "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",

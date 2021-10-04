@@ -1,5 +1,4 @@
 :root {
-    /* yellow */
     --bg1: #091420;
     --bg2: #1B263B;
     --bg3: #2f3d57;
@@ -7,8 +6,21 @@
     --text-dim: #979696;
     --text-sec: #1B263B;
     --link: #4194dd;
+    --br: 10px;
+    --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    --product__columns: 4;
     --hl: #d2e97e;
     --hlb: #d4e78f;
+    /*
+    --fl1:#99E2B4;
+    --fl2:#88D4AB;
+    --fl3:#78C6A3;
+    --fl4:#67B99A;
+    --fl5:#56AB91;
+    --fl6:#469D89;
+    --fl7:#358F80;
+    --fl8:#248277;
+    --fl9:#14746F;*/
     --fl1: #d9ed92;
     --fl2: #b5e48c;
     --fl3: #99d98c;
@@ -18,51 +30,9 @@
     --fl7: #168aad;
     --fl8: #1a759f;
     --fl9: #1e6091;
-    /* turquise */
-    --bg1: #091420;
-    --bg2: #1B263B;
-    --bg3: #2f3d57;
-    --text-main: #E0E1DD;
-    --text-dim: #979696;
-    --text-sec: #1B263B;
-    --link: #4194dd;
-    --hl: #99E2B4;
-    --hlb: #a9e7c0;
-    --fl1: #99E2B4;
-    --fl2: #88D4AB;
-    --fl3: #78C6A3;
-    --fl4: #67B99A;
-    --fl5: #56AB91;
-    --fl6: #469D89;
-    --fl7: #358F80;
-    --fl8: #248277;
-    --fl9: #14746F;
-    /* reddit */
-    --bg1: #030003;
-    --bg2: #1A1A1B;
-    --bg3: #272729;
-    --text-main: #E0E1DD;
-    --text-dim: #979696;
-    --text-sec: #1B263B;
-    --link: #4194dd;
-    --hl: #FF4500;
-    --hlb: #fc4e0f;
-    --fl1: #99E2B4;
-    --fl2: #88D4AB;
-    --fl3: #78C6A3;
-    --fl4: #67B99A;
-    --fl5: #56AB91;
-    --fl6: #469D89;
-    --fl7: #358F80;
-    --fl8: #248277;
-    --fl9: #14746F;
-    --br: 10px;
-    --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    --product__columns: 4;
 }
 
-html,
-body {
+html, body {
     overflow-x: hidden;
 }
 
@@ -75,13 +45,14 @@ body {
     color: var(--text-main);
 }
 
-h3 {
+h3{
     font-size: 16px;
 }
 
-h5 {
+h5{
     font-size: 14px;
 }
+
 
 body {
     max-width: 100%;
@@ -140,7 +111,6 @@ a::before {
     font-size: 1.5em;
 }
 
-
 /* width */
 
 ::-webkit-scrollbar {
@@ -148,14 +118,12 @@ a::before {
     height: 10px;
 }
 
-
 /* Track */
 
 ::-webkit-scrollbar-track {
     background: var(--bg2);
     border-radius: var(--br)
 }
-
 
 /* Handle */
 
