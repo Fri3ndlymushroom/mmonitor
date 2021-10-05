@@ -11,8 +11,13 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
 
 
     function closePreview() {
-        setCurrentOpenPost({ refactored: { html: '<p></p>' } })
+        setCurrentOpenPost({selftext_html: ""})
     }
+
+
+
+
+
 
     return (
         <div id="postpreview">
@@ -23,10 +28,15 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
     )
 }
 
+function htmlDecode(input) {
+    var doc = new DOMParser().parseFromString(input, "text/html");
+    return doc.documentElement.textContent;
+  }
+
 function getPreview(activeImage, setActiveImage, setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex) {
     const header =
         <div className="post__header">
-            <h2><a rel="noreferrer" target="_blank" href={currentOpenPost.full_link}>Full Post</a></h2>
+            <h2><a rel="noreferrer" target="_blank" href={currentOpenPost.url}>Full Post</a></h2>
             <div>
                 <button data-tooltip="report broken post" data-tooltip-location="left" className="button--report tooltip__parent" onClick={() => reportPost(currentOpenPost.id, setNotification)}>&#9873;</button>
                 <button className="button--close" onClick={() => closePreview()}>&#10006;</button>
@@ -49,7 +59,7 @@ function getPreview(activeImage, setActiveImage, setNotification, currentOpenPos
                     {header}
                     <h2>{currentOpenPost.title}</h2>
                     {getImageSlider(activeImage, setActiveImage, currentOpenPost.images, imageIndex, setImageIndex)}
-                    <div dangerouslySetInnerHTML={{ __html: currentOpenPost.refactored.html }} />
+                    <div dangerouslySetInnerHTML={{ __html: htmlDecode(currentOpenPost.selftext_html) }} />
                 </>
             )
         } else {
@@ -60,7 +70,7 @@ function getPreview(activeImage, setActiveImage, setNotification, currentOpenPos
                     <h2><span className="postpreview__prefix">[Wants]</span> {currentOpenPost.classification.wants}</h2>
                     <h3 className="postpreview__info">u/<span className="postpreview__author">{currentOpenPost.author}</span> from {currentOpenPost.classification.location} posted this on {date}</h3>
                     {getImageSlider(activeImage, setActiveImage, currentOpenPost.images, imageIndex, setImageIndex)}
-                    <div dangerouslySetInnerHTML={{ __html: currentOpenPost.refactored.html }} />
+                    <div dangerouslySetInnerHTML={{ __html: htmlDecode(currentOpenPost.selftext_html) }} />
                 </>
             )
         }

@@ -145,8 +145,8 @@ function App() {
     let sidebarClass = ""
     let optionsClass = ""
     let loginClass = ""
-    if (currentOpenPost.refactored) {
-        if (currentOpenPost.refactored.html !== '<p></p>')
+    if (currentOpenPost.selftext_html) {
+        if (currentOpenPost.selftext_html !== '')
             sidebarClass = "sidebar--active"
     }
     if (optionsOpen) {

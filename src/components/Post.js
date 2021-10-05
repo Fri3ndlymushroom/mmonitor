@@ -1,3 +1,4 @@
+import { post } from 'jquery'
 import React, { useState, useEffect } from 'react'
 
 export default function Post({ data, openPost }) {
@@ -6,7 +7,6 @@ export default function Post({ data, openPost }) {
     if (data.link_flair_text) {
         flairClass = data.link_flair_text.replace(/ /g, "_")
     }
-
 
 
 

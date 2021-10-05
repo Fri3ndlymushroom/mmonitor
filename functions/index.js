@@ -17,31 +17,34 @@ exports.getPosts = functions.pubsub.schedule("every 15 minutes from 00:00 to 23:
     //await getUserCredibility()
 });
 exports.getPostsCallable = functions.https.onCall(async (data, context) => {
-    await getPosts()
+    //await getPosts()
+    await getPostsNew()
     //await getUserCredibility()
 });
 
 
 
+async function getPostsNew(){
 
-async function getPosts() {
-
-    let pushshiftData = '';
-    let url = 'https://api.pushshift.io/reddit/search/submission/?subreddit=mechmarket&sort=desc&sort_type=created_utc&frequency=second&before=1s&size=50'
+    let response = '';
+    let url = 'https://www.reddit.com/r/mechmarket/new.json?sort=new'
 
     let p = new Promise((resolve, reject) => {
         https.get(url, async (resp) => {
 
             // A chunk of data has been received.
             resp.on('data', (chunk) => {
-                pushshiftData += chunk;
+                response += chunk;
             });
 
             // The whole response has been received. Print out the result.
             resp.on('end', async () => {
 
-                pushshiftData = JSON.parse(pushshiftData)
-                await updatePostDatabase(pushshiftData)
+                response = JSON.parse(response)
+                await updatePostDatabaseNew(response.data.children)
+
+                //https://www.reddit.com/r/subreddit/new.json?sort=new
+
 
                 resolve("failed")
             })
@@ -58,8 +61,12 @@ async function getPosts() {
 
 }
 
-async function updatePostDatabase(data) {
-    data = data.data
+async function updatePostDatabaseNew(newData) {
+    let data = []
+    newData.forEach(function(post){
+        data.push(post.data)
+    })
+
 
     // get ids that are present in the databse
     let presentIds = []
@@ -100,11 +107,10 @@ async function updatePostDatabase(data) {
             console.log("got: "+(i+1))
 
             imagePost.reported = { users: [], broken: false }
-            imagePost.credibility = { found: false, text: "", data: { joined: "", link_karma: 0, comment_karma: 0, trades: 0 } }
+            //imagePost.credibility = { found: false, text: "", data: { joined: "", link_karma: 0, comment_karma: 0, trades: 0 } }
             presentIds.push(post.id)
 
             imagePost = classifyData(imagePost)
-            imagePost = refactorText(imagePost)
 
             await db.collection("posts").doc(post.id).set(
                 imagePost
@@ -120,144 +126,6 @@ async function updatePostDatabase(data) {
     console.log("Finished")
 }
 
-function refactorText(data) {
-
-    data.refactored = {
-        html: ""
-    }
-    data = filterOutLinks(data)
-
-    data = filterOutSpecialText(data)
-
-    let i = -1
-    data.refactored.html = data.refactored.html.replace(/^.*$/gm, function () {
-        let lines = data.refactored.html.match(/^.*$/gm)
-        i++
-        return ("<p>" + lines[i] + "</p>")
-    })
-
-    return data
-}
-
-
-
-function filterOutSpecialText(data) {
-
-    // Bold Italic ***
-    let i = -1
-    data.refactored.html = data.refactored.html.replace(/(\*\*\*).*(\*\*\*)/gm, function () {
-        let found = data.refactored.html.match(/(?<=\*\*\*).*(?=\*\*\*)/gm)
-
-        
-
-        i++
-        return "<span class='bold italic'>" + found[i] + "</span>"
-    })
-
-    // Bold **
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(\*\*).*(\*\*)/gm, function () {
-        let found = data.refactored.html.match(/(?<=\*\*).*(?=\*\*)/gm)
-        i++
-        return "<span class='bold'>" + found[i] + "</span>"
-    })
-
-    // Italic *
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(\*).*(\*)/gm, function () {
-        let found = data.refactored.html.match(/(?<=\*).*(?=\*)/gm)
-        i++
-        return "<span class='italic'>" + found[i] + "</span>"
-    })
-
-    // dot *
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(\* )/g, function () {
-
-        i++
-        return "<span>•</span>"
-    })
-
-    // Heading 2 ##
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(## ).*?(?=<)/gm, function () {
-        let found = data.refactored.html.match(/(?<=## ).*?(?=<)/gm)
-
-        i++
-        return "<span class='post__h2 italic'>" + found[i] + "</span>"
-    })
-
-    // Heading 1 #
-    i = -1
-    data.refactored.html = data.refactored.html.replace(/(# ).*?(?=<)/gm, function () {
-        let found = data.refactored.html.match(/(?<=# ).*?(?=<)/gm)
-
-
-        i++
-        return "<span class='post__h1 italic'>" + found[i] + "</span>"
-    })
-
-    // ignore \
-    data.refactored.html = data.refactored.html.replace(/\\/g, "")
-
-    // ignore &***;
-    data.refactored.html = data.refactored.html.replace(/&.*;/g, "")
-
-    return data
-}
-
-function filterOutLinks(data) {
-
-
-
-    if (data.selftext) {
-        data.selftext = data.selftext.replace(/\\/gm, "")
-        let html = data.selftext
-
-
-
-        let links = html.match(/\[(.*?)\]( *)\((.*?)\)/g)
-
-
-
-
-
-        let sublinks = []
-        if (links != null) {
-
-            links.forEach(function (element) {
-                sublinks.push(
-                    {
-                        link_text: element.match(/(?<=\[).*?(?=\])/g)[0],
-                        url: element.match(/(?<=\().*(?=\))/g)[0]
-                    })
-            })
-            let i = -1
-            html = html.replace(/\[(.*?)\]( *?)\((.*?)\)/g, function () {
-                i++
-                let link = ("<a rel='noreferrer' target='_blank' href='" + sublinks[i].url + "'>" + sublinks[i].link_text + "</a>")
-                return link
-            })
-        }
-
-
-
-
-        let i = 0
-        html = html.replace(/( |^)https*:\/\/(.*?)(?= |$)/gm, () => {
-            let link = html.match(/( |^)https*:\/\/(.*?)(?= |$)/gm)
-            let newLink = "<a rel='noreferrer' target='_blank' href='" + link[i] + "'>" + link[i] + "</a>"
-            i++
-            return newLink
-        })
-
-
-
-        data.refactored.html = html
-    }
-
-    return data
-}
 
 function classifyData(data) {
 
@@ -284,12 +152,6 @@ function classifyData(data) {
     if(/giveaway/gim.test(text)){
         data.classification.search.giveaway = true
     }
-
-
-
-
-
-
 
 
 
