@@ -90,8 +90,6 @@ export default function getSettings() {
     }
 
 
-    let activeTheme = ""
-
 
 
 

@@ -164,8 +164,6 @@ function App() {
 
     let themeClass = ""
     for (let theme in settings[4].options) if (settings[4].options[theme]) themeClass = "theme--"+theme.toLowerCase()
-    console.log(themeClass)
-
     document.body.className = themeClass
 
     return (
