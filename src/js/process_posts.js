@@ -26,6 +26,7 @@ export default function processPostsData(postsData, settings) {
 function processData(data, settings) {
     // apply settings
     data = filterPosts(data, settings)
+    data = setLinkTarget(data)
 
     return data
 }
@@ -36,7 +37,12 @@ function filterPosts(data, settings) {
     return data
 }
 
+function setLinkTarget(data){
+    console.log(data.selftext_html)
 
+    data.selftext_html = data.selftext_html.replace(/(?<=;a) /gm, " target='_blank' ")
 
+    return data
+}
 
 
