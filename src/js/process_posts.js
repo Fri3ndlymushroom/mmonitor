@@ -27,6 +27,7 @@ function processData(data, settings) {
     // apply settings
     data = filterPosts(data, settings)
     data = setLinkTarget(data)
+    data = wrapTables(data)
 
     return data
 }
@@ -44,4 +45,13 @@ function setLinkTarget(data){
     return data
 }
 
-
+function wrapTables(data){
+    let i = 0
+    data.selftext_html = data.selftext_html.replace(/&lt;table&gt([\s\S]*)&lt;\/table&gt;/gm, ()=>{
+        let tables = data.selftext_html.match(/&lt;table&gt([\s\S]*)&lt;\/table&gt;/gm)
+        let wrapped = "&lt;div class='table__wrapper'&gt;"+tables[i]+"&lt;/div&gt"
+        i++
+        return wrapped
+    })
+    return data
+}
