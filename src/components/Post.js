@@ -1,4 +1,3 @@
-import { post } from 'jquery'
 import React, { useState, useEffect } from 'react'
 
 export default function Post({ data, openPost }) {

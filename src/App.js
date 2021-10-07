@@ -56,54 +56,55 @@ function App() {
     const [renderLimit, setRenderLimit] = useState(30)
     useEffect(() => {
         getPosts()
+        function getPosts() {
+
+            let flairs = []
+            for (let flair in settings[0].options) {
+                if (settings[0].options[flair] === true) {
+                    flairs.push(flair)
+                }
+            }
+            if (flairs.length > 0) {
+                let posts = db.collection("posts").where("link_flair_text", "in", flairs)
+    
+                //location
+                if (!settings[1].options.All) {
+                    let location = ""
+                    for (let option in settings[1].options) {
+                        if (settings[1].options[option]) location = option
+                    }
+                    posts = posts.where("classification.location_prefix", "==", location)
+                }
+    
+                //broken
+                if (!settings[2].options.show) {
+                    posts = posts.where("classification.broken", "==", false)
+                }
+    
+                // search
+                let searchTerms = []
+                for (let term in settings[3].options) {
+                    if (settings[3].options[term]) searchTerms.push(term.toLowerCase())
+                }
+    
+                searchTerms.forEach(function (term) {
+                    posts = posts.where("classification.search." + term, "==", true)
+                })
+    
+    
+                posts.orderBy("created_utc", "desc").limit(renderLimit).get().then((querySnapshot) => {
+                    let dbData = []
+                    querySnapshot.forEach(function (doc) {
+                        dbData.push(doc.data())
+                    })
+                    setPostsData(dbData)
+                })
+            }
+        }
     }, [renderLimit, settings])
 
 
-    function getPosts() {
 
-        let flairs = []
-        for (let flair in settings[0].options) {
-            if (settings[0].options[flair] === true) {
-                flairs.push(flair)
-            }
-        }
-        if (flairs.length > 0) {
-            let posts = db.collection("posts").where("link_flair_text", "in", flairs)
-
-            //location
-            if (!settings[1].options.All) {
-                let location = ""
-                for (let option in settings[1].options) {
-                    if (settings[1].options[option]) location = option
-                }
-                posts = posts.where("classification.location_prefix", "==", location)
-            }
-
-            //broken
-            if (!settings[2].options.show) {
-                posts = posts.where("classification.broken", "==", false)
-            }
-
-            // search
-            let searchTerms = []
-            for (let term in settings[3].options) {
-                if (settings[3].options[term]) searchTerms.push(term.toLowerCase())
-            }
-
-            searchTerms.forEach(function (term) {
-                posts = posts.where("classification.search." + term, "==", true)
-            })
-
-
-            posts.orderBy("created_utc", "desc").limit(renderLimit).get().then((querySnapshot) => {
-                let dbData = []
-                querySnapshot.forEach(function (doc) {
-                    dbData.push(doc.data())
-                })
-                setPostsData(dbData)
-            })
-        }
-    }
 
 
 

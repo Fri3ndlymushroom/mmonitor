@@ -1,5 +1,4 @@
 #postpreview {
-    display: none;
     margin: 30px 30px 30px 30px;
     background-color: var(--bg2);
     padding: 30px;
@@ -9,6 +8,12 @@
     grid-row: 1;
     z-index: 3;
     overflow-x: hidden;
+    transform: scale(0);
+    transition: 0.3s;
+}
+
+#body.sidebar--active>#postpreview {
+    transform: scale(1)
 }
 
 @media screen and (max-width: 1200px) {
@@ -39,16 +44,12 @@
     color: var(--text-dim);
 }
 
-
-
 #body.sidebar--active> {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 600px)
 }
 
-#body.sidebar--active>#postpreview {
-    display: block
-}
+
 
 #overlay {
     display: none;
