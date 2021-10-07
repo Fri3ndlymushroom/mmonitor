@@ -31,7 +31,7 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
 function htmlDecode(input) {
     var doc = new DOMParser().parseFromString(input, "text/html");
     return doc.documentElement.textContent;
-  }
+}
 
 function getPreview(activeImage, setActiveImage, setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex) {
     const header =

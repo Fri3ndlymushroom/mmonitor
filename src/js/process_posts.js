@@ -38,7 +38,6 @@ function filterPosts(data, settings) {
 }
 
 function setLinkTarget(data){
-    console.log(data.selftext_html)
 
     data.selftext_html = data.selftext_html.replace(/(?<=;a) /gm, " target='_blank' ")
 

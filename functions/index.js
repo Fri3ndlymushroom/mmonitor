@@ -12,8 +12,8 @@ db.settings({
 
 const puppeteer = require('puppeteer')
 
-exports.getPosts = functions.pubsub.schedule("every 15 minutes from 00:00 to 23:59").timeZone("Europe/London").onRun(async (context) => {
-    await getPosts()
+exports.getPosts = functions.pubsub.schedule("every 3 minutes from 00:00 to 23:59").timeZone("Europe/London").onRun(async (context) => {
+    await getPostsNew()
     //await getUserCredibility()
 });
 exports.getPostsCallable = functions.https.onCall(async (data, context) => {
@@ -21,8 +21,6 @@ exports.getPostsCallable = functions.https.onCall(async (data, context) => {
     await getPostsNew()
     //await getUserCredibility()
 });
-
-
 
 async function getPostsNew(){
 
