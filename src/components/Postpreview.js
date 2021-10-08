@@ -11,19 +11,33 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
 
 
     function closePreview() {
-        setCurrentOpenPost({selftext_html: ""})
+        setCurrentOpenPost({ selftext_html: "" })
     }
 
-
+    function getZoomedImage() {
+        if (currentOpenPost.images)
+            return (
+                <div id="preview__image_containter" className={activeImage} onClick={() => setActiveImage("")}>
+                    <img src={currentOpenPost.images[imageIndex]}></img>
+                </div>)
+    }
 
     return (
-        <div id="postpreview">
-            {
-                getPreview(activeImage, setActiveImage, setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex)
-            }
-        </div>
+        <>
+            {getZoomedImage()}
+
+
+
+            <div id="postpreview">
+                {
+                    getPreview(activeImage, setActiveImage, setNotification, currentOpenPost, closePreview, imageIndex, setImageIndex)
+                }
+            </div>
+        </>
     )
 }
+
+
 
 function htmlDecode(input) {
     var doc = new DOMParser().parseFromString(input, "text/html");
@@ -41,7 +55,7 @@ function getPreview(activeImage, setActiveImage, setNotification, currentOpenPos
         </div>
 
 
-    
+
     let date = ""
     if (currentOpenPost.created_utc) {
         let d = new Date(currentOpenPost.created_utc * 1000).toString().split(" ");
@@ -85,8 +99,7 @@ function getImageSlider(activeImage, setActiveImage, images, imageIndex, setImag
         return (
             <div className="imageslider">
                 <span>{imageIndex + 1}/{images.length}</span>
-                <img className={activeImage} alt="galery" src={images[imageIndex]}></img>
-                <div className={activeImage} onClick={() => setActiveImage("")} id="imageslider__overlay"></div>
+                <img alt="galery" src={images[imageIndex]}></img>
                 <button className="imageslider__prev" onClick={() => setImageIndex(() => {
                     let newIndex = imageIndex - 1
                     if (newIndex < 0) newIndex = images.length - 1
