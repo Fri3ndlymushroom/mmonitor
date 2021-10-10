@@ -69,9 +69,10 @@ export default function getSettings() {
             id: "dropdown--theme",
             ls: "Theme",
             options: {
-                Yellow: true,
+                Yellow: false,
                 Turquise: false,
-                Reddit: false
+                Reddit: false,
+                Flat: true
             }
         },
     ]

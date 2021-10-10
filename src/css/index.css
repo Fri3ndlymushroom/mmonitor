@@ -25,6 +25,29 @@
 
 }
 
+body.theme--flat {
+    /* mmonitor */
+    --bg1: #1B1B27;
+    --bg2: #202231;
+    --bg3: #2d2f41;
+    --text-main: #ffffff;
+    --text-dim: #A6A7AB;
+    --text-sec: #1b1b1b;
+    --link: #4194dd;
+    --hl: #7667F6;
+    --hlb: #8376f3;
+    --fl1: #d9ed92;
+    --fl2: #b5e48c;
+    --fl3: #99d98c;
+    --fl4: #76c893;
+    --fl5: #52b69a;
+    --fl6: #34a0a4;
+    --fl7: #168aad;
+    --fl8: #1a759f;
+    --fl9: #1e6091;
+    --filter: invert(34%) sepia(85%) saturate(1065%) hue-rotate(222deg) brightness(105%) contrast(93%);
+}
+
 body.theme--yellow {
     /* mmonitor */
     --bg1: #091420;
