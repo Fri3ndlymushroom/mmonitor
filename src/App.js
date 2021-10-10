@@ -22,7 +22,7 @@ import "./css/table.css"
 // js
 import getSettings, { getOptionsArray } from "./js/settings"
 import processPostsData from "./js/process_posts"
-const current_lsv = 2
+const current_lsv = 5
 
 
 

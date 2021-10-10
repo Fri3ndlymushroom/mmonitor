@@ -25,9 +25,10 @@ export default function processPostsData(postsData, settings) {
 
 function processData(data, settings) {
     // apply settings
-    data = filterPosts(data, settings)
-    data = setLinkTarget(data)
-    data = wrapTables(data)
+    if(data.selftext_html)
+        data = filterPosts(data, settings)
+        data = setLinkTarget(data)
+        data = wrapTables(data)
 
     return data
 }

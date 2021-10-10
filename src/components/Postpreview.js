@@ -18,9 +18,9 @@ export default function Postpreview({ setNotification, setCurrentOpenPost, curre
         if (currentOpenPost.images)
             return (
                 <div id="preview__image_containter" className={activeImage} onClick={() => setActiveImage("")}>
-                    <img src={currentOpenPost.images[imageIndex]}></img>
+                    <img alt="zoom image" src={currentOpenPost.images[imageIndex]}></img>
                 </div>)
-    }
+    } 
 
     return (
         <>

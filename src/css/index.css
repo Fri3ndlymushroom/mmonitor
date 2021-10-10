@@ -22,10 +22,11 @@
     --fl8: #1a759f;
     --fl9: #1e6091;
     --filter: invert(93%) sepia(51%) saturate(484%) hue-rotate(13deg) brightness(93%) contrast(96%);
+
 }
 
-body.theme--yellow{
-    /* yellow */
+body.theme--yellow {
+    /* mmonitor */
     --bg1: #091420;
     --bg2: #1B263B;
     --bg3: #2f3d57;
@@ -34,6 +35,7 @@ body.theme--yellow{
     --text-sec: #1B263B;
     --link: #4194dd;
     --hl: #d2e97e;
+    --hlb: #d4e78f;
     --fl1: #d9ed92;
     --fl2: #b5e48c;
     --fl3: #99d98c;
@@ -46,7 +48,7 @@ body.theme--yellow{
     --filter: invert(93%) sepia(51%) saturate(484%) hue-rotate(13deg) brightness(93%) contrast(96%);
 }
 
-body.theme--turquise{
+body.theme--turquise {
     /* turquise */
     --bg1: #091420;
     --bg2: #1B263B;
@@ -69,7 +71,7 @@ body.theme--turquise{
     --filter: invert(92%) sepia(11%) saturate(1064%) hue-rotate(78deg) brightness(92%) contrast(93%);
 }
 
-body.theme--reddit{
+body.theme--reddit {
     /* reddit */
     --bg1: #030003;
     --bg2: #1A1A1B;
@@ -91,7 +93,6 @@ body.theme--reddit{
     --fl9: #14746F;
     --filter: invert(36%) sepia(93%) saturate(3603%) hue-rotate(1deg) brightness(101%) contrast(108%);
 }
-
 
 html, body {
     overflow-x: hidden;
