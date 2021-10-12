@@ -1,4 +1,7 @@
 :root {
+    --br: 10px;
+    --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    --product__columns: 4;
     /* yellow */
     --bg1: #091420;
     --bg2: #1B263B;
@@ -18,6 +21,57 @@
     --fl7: #168aad;
     --fl8: #1a759f;
     --fl9: #1e6091;
+    --filter: invert(93%) sepia(51%) saturate(484%) hue-rotate(13deg) brightness(93%) contrast(96%);
+
+}
+
+body.theme--flat {
+    /* mmonitor */
+    --bg1: #1B1B27;
+    --bg2: #202231;
+    --bg3: #2d2f41;
+    --text-main: #ffffff;
+    --text-dim: #A6A7AB;
+    --text-sec: #1b1b1b;
+    --link: #4194dd;
+    --hl: #7667F6;
+    --hlb: #8376f3;
+    --fl1: #d9ed92;
+    --fl2: #b5e48c;
+    --fl3: #99d98c;
+    --fl4: #76c893;
+    --fl5: #52b69a;
+    --fl6: #34a0a4;
+    --fl7: #168aad;
+    --fl8: #1a759f;
+    --fl9: #1e6091;
+    --filter: invert(34%) sepia(85%) saturate(1065%) hue-rotate(222deg) brightness(105%) contrast(93%);
+}
+
+body.theme--yellow {
+    /* mmonitor */
+    --bg1: #091420;
+    --bg2: #1B263B;
+    --bg3: #2f3d57;
+    --text-main: #E0E1DD;
+    --text-dim: #979696;
+    --text-sec: #1B263B;
+    --link: #4194dd;
+    --hl: #d2e97e;
+    --hlb: #d4e78f;
+    --fl1: #d9ed92;
+    --fl2: #b5e48c;
+    --fl3: #99d98c;
+    --fl4: #76c893;
+    --fl5: #52b69a;
+    --fl6: #34a0a4;
+    --fl7: #168aad;
+    --fl8: #1a759f;
+    --fl9: #1e6091;
+    --filter: invert(93%) sepia(51%) saturate(484%) hue-rotate(13deg) brightness(93%) contrast(96%);
+}
+
+body.theme--turquise {
     /* turquise */
     --bg1: #091420;
     --bg2: #1B263B;
@@ -37,6 +91,10 @@
     --fl7: #358F80;
     --fl8: #248277;
     --fl9: #14746F;
+    --filter: invert(92%) sepia(11%) saturate(1064%) hue-rotate(78deg) brightness(92%) contrast(93%);
+}
+
+body.theme--reddit {
     /* reddit */
     --bg1: #030003;
     --bg2: #1A1A1B;
@@ -56,13 +114,10 @@
     --fl7: #358F80;
     --fl8: #248277;
     --fl9: #14746F;
-    --br: 10px;
-    --bs: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    --product__columns: 4;
+    --filter: invert(36%) sepia(93%) saturate(3603%) hue-rotate(1deg) brightness(101%) contrast(108%);
 }
 
-html,
-body {
+html, body {
     overflow-x: hidden;
 }
 
@@ -140,7 +195,6 @@ a::before {
     font-size: 1.5em;
 }
 
-
 /* width */
 
 ::-webkit-scrollbar {
@@ -148,14 +202,12 @@ a::before {
     height: 10px;
 }
 
-
 /* Track */
 
 ::-webkit-scrollbar-track {
     background: var(--bg2);
     border-radius: var(--br)
 }
-
 
 /* Handle */
 

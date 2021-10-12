@@ -33,7 +33,7 @@
 #toolbar>div>button>img {
     width: 25px;
     /* https://codepen.io/sosuke/pen/Pjoqqp */
-    filter: invert(93%) sepia(51%) saturate(484%) hue-rotate(13deg) brightness(93%) contrast(96%);
+    filter: var(--filter);
 }
 
 

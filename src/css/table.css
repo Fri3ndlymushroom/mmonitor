@@ -11,6 +11,6 @@ table {
 
 }
 
-#table__wrapper{
+.table__wrapper{
     overflow-x: scroll;
 }

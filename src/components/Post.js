@@ -9,7 +9,6 @@ export default function Post({ data, openPost }) {
 
 
 
-
     const [imageIndex, setImageIndex] = useState(0)
     const [hovering, setHovering] = useState(false)
 

@@ -22,10 +22,18 @@ import "./css/table.css"
 // js
 import getSettings, { getOptionsArray } from "./js/settings"
 import processPostsData from "./js/process_posts"
+const current_lsv = 8
 
 
 
 function App() {
+    useEffect(() => {
+        let lsv = localStorage.getItem("lsv")
+        if (lsv === null || JSON.parse(lsv) !== current_lsv) {
+            localStorage.clear()
+            localStorage.setItem("lsv", JSON.stringify(current_lsv))
+        }
+    })
 
     // settings
     const [settings, setSettings] = useState(getSettings())
@@ -48,38 +56,65 @@ function App() {
     const [renderLimit, setRenderLimit] = useState(30)
     useEffect(() => {
         getPosts()
-    }, [renderLimit, settings])
+        function getPosts() {
 
-
-    function getPosts() {
-
-        let flairs = []
-
-
-        for (let flair in settings[0].options) {
-            if (settings[0].options[flair] === true) {
-                flairs.push(flair)
+            let flairs = []
+            for (let flair in settings[0].options) {
+                if (settings[0].options[flair] === true) {
+                    flairs.push(flair)
+                }
             }
-        }
-
-
-        if (flairs.length > 0) {
-            db.collection("posts").where("link_flair_text", "in", flairs)
-                .orderBy("created_utc", "desc").limit(renderLimit).get().then((querySnapshot) => {
+            if (flairs.length > 0) {
+                let posts = db.collection("posts").where("link_flair_text", "in", flairs)
+    
+                //location
+                if (!settings[1].options.All) {
+                    let location = ""
+                    for (let option in settings[1].options) {
+                        if (settings[1].options[option]) location = option
+                    }
+                    posts = posts.where("classification.location_prefix", "==", location)
+                }
+    
+                //broken
+                if (!settings[2].options.show) {
+                    posts = posts.where("classification.broken", "==", false)
+                }
+    
+                // search
+                let searchTerms = []
+                for (let term in settings[3].options) {
+                    if (settings[3].options[term]) searchTerms.push(term.toLowerCase())
+                }
+    
+                searchTerms.forEach(function (term) {
+                    posts = posts.where("classification.search." + term, "==", true)
+                })
+    
+    
+                posts.orderBy("created_utc", "desc").limit(renderLimit).get().then((querySnapshot) => {
                     let dbData = []
                     querySnapshot.forEach(function (doc) {
                         dbData.push(doc.data())
                     })
                     setPostsData(dbData)
                 })
+            }
         }
-    }
+    }, [renderLimit, settings])
+
+
+
+
+
+
+
 
     useEffect(() => {
         let shouldChange = true
         document.getElementById("posts").addEventListener('scroll', function (event) {
             var element = event.target;
-            if (Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight)< 2) {
+            if (Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 2) {
                 if (shouldChange) {
                     shouldChange = true
                     setTimeout(function () {
@@ -111,8 +146,8 @@ function App() {
     let sidebarClass = ""
     let optionsClass = ""
     let loginClass = ""
-    if (currentOpenPost.refactored) {
-        if (currentOpenPost.refactored.html !== '<p></p>')
+    if (currentOpenPost.selftext_html) {
+        if (currentOpenPost.selftext_html !== '')
             sidebarClass = "sidebar--active"
     }
     if (optionsOpen) {
@@ -127,6 +162,10 @@ function App() {
     const [notification, setNotification] = useState("")
 
     const [popup, setPopup] = useState({ active: "", text: "Hello world" })
+
+    let themeClass = ""
+    for (let theme in settings[4].options) if (settings[4].options[theme]) themeClass = "theme--"+theme.toLowerCase()
+    document.body.className = themeClass
 
     return (
         <>

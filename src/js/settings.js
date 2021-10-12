@@ -17,6 +17,7 @@ export default function getSettings() {
 
     let defaultSettings = [
         {
+            only_one: false,
             id: "dropdown--flair",
             ls: "Flair",
             options: {
@@ -32,17 +33,18 @@ export default function getSettings() {
             }
         },
         {
+            only_one: true,
             id: "dropdown--location",
             ls: "Location",
             options: {
-                AU: true,
-                CA: true,
-                EU: true,
-                JP: true,
-                NZ: true,
-                SG: true,
-                UK: true,
-                US: true,
+                AU: false,
+                CA: false,
+                EU: false,
+                JP: false,
+                NZ: false,
+                SG: false,
+                UK: false,
+                US: false,
                 All: true,
             }
         },
@@ -50,6 +52,7 @@ export default function getSettings() {
 
             id: "dropdown--broken",
             ls: "Show broken posts",
+            only_one: false,
             options: {
                 "show": false
             }
@@ -61,6 +64,17 @@ export default function getSettings() {
                 "Giveaway": false
             }
         },
+        {
+            only_one: true,
+            id: "dropdown--theme",
+            ls: "Theme",
+            options: {
+                Yellow: false,
+                Turquise: false,
+                Reddit: false,
+                Flat: true
+            }
+        },
     ]
 
 
@@ -68,12 +82,26 @@ export default function getSettings() {
         defaultSettings.forEach(function (type) {
             localStorage.setItem(type.ls, JSON.stringify(type.options))
         })
+
     } else {
         defaultSettings.forEach(function (element, i) {
             let lsdoc = JSON.parse(localStorage.getItem(element.ls))
             defaultSettings[i].options = lsdoc
         })
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     return defaultSettings
 }
